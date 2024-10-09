@@ -37,7 +37,6 @@ export default function BasicList() {
       sx={{
         display: "flex",
         justifyContent: "flex-end",
-        bgcolor: "background.paper",
         p: 1,
       }}
     >
