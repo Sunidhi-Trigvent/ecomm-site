@@ -6,12 +6,30 @@ import fullStar from "../../../../assets/images/full_star.png";
 import emptyStar from "../../../../assets/images/half_star.png";
 import { Divider } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import CartAmountToggle from "../cartAmtToggle";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Container_main({ productDetail }) {
   console.log(productDetail);
 
+  // Initialize the useNavigate hook
+  const navigate = useNavigate();
+
   // State to track the active color button
   const [activeColor, setActiveColor] = React.useState(null);
+
+  //state to track amount
+  const[amount,setAmount]=React.useState(1);
+
+  //funct for INC/DEC
+
+  const setDecrease=()=>{
+    amount>1? setAmount(amount-1):setAmount(1);
+  }
+
+  const setIncrease=()=>{
+    amount < productDetail.stock? setAmount(amount+1): setAmount(productDetail.stock);
+  }
 
   // Fallback if productDetail is not available
   const images = productDetail?.image || [];
@@ -136,6 +154,15 @@ export default function Container_main({ productDetail }) {
             </Button>
           ))}
         </Stack>
+        <Box sx={{ mt: 2 }}>
+
+        {/* cartamount-Toggle */}
+          <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease}/>
+          </Box>
+
+          {/* Cart Button */}
+          <Button variant="contained" onClick={() => navigate("/cart")}>Add To Cart</Button>
+
       </Grid>
     </Grid>
   );
