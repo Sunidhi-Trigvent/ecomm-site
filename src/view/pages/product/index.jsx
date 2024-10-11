@@ -17,6 +17,7 @@ const Product = () => {
 
   return (
     <>
+      {/* <p>Home/{productDetail?.name}</p> */}
       <Container_main productDetail={productDetail} />
     </>
   );

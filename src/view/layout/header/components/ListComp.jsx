@@ -5,6 +5,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Link, useLocation } from "react-router-dom";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Import the cart icon
+import IconButton from "@mui/material/IconButton"; // Import IconButton for the icon
 
 export default function BasicList() {
   const location = useLocation();
@@ -30,6 +32,12 @@ export default function BasicList() {
       name: "CONTACT",
       navLinks: "/contact",
     },
+    {
+      id: 5,
+      name: "CART",
+      navLinks: "/cart",
+      icon: <ShoppingCartIcon />, // Add the icon for the cart
+    },
   ];
 
   return (
@@ -52,7 +60,13 @@ export default function BasicList() {
                 },
               }}
             >
-              <ListItemText primary={item.name} />
+              {item.id === 5 ? ( // Check if the item is CART to render the icon
+                <IconButton aria-label="cart" sx={{ color: "inherit" }}>
+                  {item.icon}
+                </IconButton>
+              ) : (
+                <ListItemText primary={item.name} />
+              )}
             </ListItemButton>
           </ListItem>
         ))}
