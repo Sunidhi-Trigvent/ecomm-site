@@ -19,6 +19,7 @@ export default function useProducts(productId) {
     }
   );
 
+  //api to display products in feature page
   const {
     data: products,
     isLoading,

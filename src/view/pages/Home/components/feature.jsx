@@ -5,7 +5,10 @@ import useProducts from "../../../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 
 export default function FeatureComp() {
+  //useProduct hook
   const { products, isLoading } = useProducts();
+
+  //state to manage featured products
   const [featuredProducts, setFeaturedProducts] = React.useState([]);
   const navigate = useNavigate();
 
@@ -31,9 +34,19 @@ export default function FeatureComp() {
             <img
               src={product?.image}
               alt={product?.name}
-              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              style={{ width: "200px", height: "200px", objectFit: "cover" }}
             />
-            <Box>{product?.name}</Box>
+            <stack
+              direction={"row"}
+              justifyContent={"space-between"}
+              spacing={19}
+              gap={9}
+            >
+              <Box>
+                {product?.name}
+                {product?.price}
+              </Box>
+            </stack>
           </Box>
         ))}
       </Stack>

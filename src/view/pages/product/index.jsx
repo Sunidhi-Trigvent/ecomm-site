@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import useProducts from "../../../hooks/useProducts";
 import { useParams } from "react-router-dom";
+import Container_main from "./designing.jsx/container";
 
 const Product = () => {
   const params = useParams();
@@ -13,7 +14,12 @@ const Product = () => {
 
   console.log(productDetail);
 
-  return <div>{productDetail?.name}</div>;
+  return (
+    <>
+      <p>Home/{productDetail?.name}</p>
+      <Container_main productDetail={productDetail} />
+    </>
+  );
 };
 
 export default Product;
