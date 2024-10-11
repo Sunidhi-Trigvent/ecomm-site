@@ -30,7 +30,7 @@ function Home() {
         <FeatureComp />
       </Box>
 
-      <Box>
+      <Box justifyContent={"center"}>
         <FeatureTwo />
       </Box>
     </>
