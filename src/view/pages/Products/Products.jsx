@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import { Stack } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -26,119 +26,110 @@ function Products() {
 
   return (
     <>
-      {/* Outer Grid starts*/}
-      <Grid container direction="row" spacing={2}>
-        <Grid item sm={6}>
+      <Grid container spacing={2}>
+        <Grid item size={2}></Grid>
+        <Grid item size={{ sm: 2 }}>
           {/* Sidebar Grid Starts */}
-          <Grid container border={"1px solid red"}>
-            <Grid item xs={12} sm={6}>
-              {/* Sidebar starts*/}
-              {/* Search Box */}
-              <Box>
-                <Box
-                  component="form"
-                  sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    id="outlined-basic"
-                    label="Search"
-                    variant="outlined"
-                  />
-                </Box>
-                {/* Search Box Ends*/}
-                <Typography>Catergory</Typography>
-              </Box>
-            </Grid>
-            {/* Sidebar ends*/}
-          </Grid>
-          {/* Sidebar Grid ends */}
+          {/* Sidebar starts*/}
+          {/* Search Box */}
+          <Stack gap={2} p={1}>
+            <TextField
+              id="outlined-basic"
+              label="Search"
+              variant="outlined"
+              size="small"
+            />
+            {/* Search Box Ends*/}
+            <Typography>Catergory</Typography>
+          </Stack>
         </Grid>
+        {/* Sidebar ends*/}
+        {/* Sidebar Grid ends */}
 
-        <Grid item sm={6}>
+        <Grid item size={{ sm: 6 }} mt={1}>
           {/* Topbar+Center Grid starts */}
-          <Grid container border={"1px solid red"} mt={2}>
-            <Grid container border={"1px solid blue"} mt={2}>
-              <Grid item xs={6}>
-                {/* Top bar of Products Page starts*/}
-                <Stack direction="row" spacing={1} mt={2}>
-                  {/* Icons Display */}
-                  <GridViewIcon></GridViewIcon>
-                  <MenuIcon></MenuIcon>
+          {/* <Grid container border={"1px solid blue"} mt={2}> */}
+          <Grid item size={{ sm: 12 }}>
+            {/* Top bar of Products Page starts*/}
+            <Grid container spacing={2} alignItems={"center"}>
+              {/* Icons Display */}
+              <Grid item size={2}>
+                <IconButton>
+                  <GridViewIcon />
+                </IconButton>
+                <IconButton>
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
 
-                  {/* Products Counting */}
-                  <Typography>Total Products</Typography>
+              {/* Products Counting */}
+              <Grid item size={6} justifyContent={"center"}>
+                <Typography width={200} sx={{ float: "right" }}>
+                  Total Products
+                </Typography>
+              </Grid>
 
-                  {/* Select Box */}
-                  <Box sx={{ padding: 2 }}>
-                    <FormControl sx={{ Width: 12 }}>
-                      {/* <InputLabel id="product-select-label">Select Value</InputLabel> */}
-                      <Select
-                        labelId="product-select-label"
-                        id="product-select"
-                        value={selectedValue}
-                        label="Select Value"
-                        onChange={handleSelectChange}
-                      >
-                        <MenuItem value={30}>Price(lowest)</MenuItem>
-                        <MenuItem value={30}>Price(highest)</MenuItem>
-                        <MenuItem value={10}>Price(a-z)</MenuItem>
-                        <MenuItem value={20}>Price(z-a)</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                  {/* Select Box Ends  */}
+              {/* Select Box */}
+              {/* <Box sx={{ padding: 2 }}   > */}
+              {/* <InputLabel id="product-select-label">Select Value</InputLabel> */}
+              <Grid item size={4}>
+                <Select
+                  labelId="product-select-label"
+                  id="product-select"
+                  value={selectedValue}
+                  onChange={handleSelectChange}
+                  fullWidth
+                  size="small"
+                >
+                  <MenuItem value={10}>Price(lowest)</MenuItem>
+                  <MenuItem value={20}>Price(highest)</MenuItem>
+                  <MenuItem value={30}>Price(a-z)</MenuItem>
+                  <MenuItem value={40}>Price(z-a)</MenuItem>
+                </Select>
+              </Grid>
+              {/* </Box> */}
+              {/* Select Box Ends  */}
+            </Grid>
+          </Grid>
+          <Grid container mt={2} size={{ sm: 12 }} spacing={1}>
+            {/* Box to display all products */}
+            {/* <Grid container spacing={2} border={"1px solid"}> */}
+            {products?.map((product) => (
+              <Grid
+                bgcolor={"WhiteSmoke"}
+                size={{ md: 4 }}
+                textAlign={"center"}
+                p={1}
+                borderRadius={2}
+              >
+                <Box
+                  component={"img"}
+                  src={product?.image}
+                  alt={product?.name}
+                  width={198}
+                  height={150}
+                />
+                <Stack
+                  direction={"row"}
+                  width={200}
+                  justifyContent={"space-between"}
+                >
+                  <Typography fontSize={"16px"}>{product?.name}</Typography>
+                  <Typography fontSize={"14px"}>${product?.price}</Typography>
                 </Stack>
               </Grid>
-            </Grid>
-            {/* Top bar of Products Page Ends*/}
-
-            {/* Center Box starts */}
-            <Grid container border={"1px solid green"} mt={2}>
-              <Grid item xs={6}>
-                {/* Box to display all products */}
-                <Box sx={{ flexGrow: 1, padding: 2 }}>
-                  <Grid container spacing={2}>
-                    {products?.map((product) => (
-                      <Grid item xs={12} sm={6} md={4} key={product?.id}>
-                        <Box
-                          textAlign="center"
-                          border={1}
-                          borderColor="grey.300"
-                          borderRadius={2}
-                          p={2}
-                        >
-                          <img
-                            src={product?.image}
-                            alt={product?.name}
-                            style={{
-                              width: "100%",
-                              height: "200px",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <Box mt={1}>
-                            <Typography variant="h6">
-                              {product?.name}
-                            </Typography>
-                            <Typography variant="body2">
-                              ${product?.price}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
-              </Grid>
-            </Grid>
-            {/* Center Box ends */}
-
-            {/* Topbar+Center Grid ends */}
+            ))}
+            {/* </Grid> */}
+            {/* </Grid> */}
           </Grid>
+          {/* Top bar of Products Page Ends*/}
+
+          {/* Center Box starts */}
+          {/* Center Box ends */}
+
+          {/* Topbar+Center Grid ends */}
         </Grid>
-        {/* Outer Grid ends*/}
+        <Grid item size={2}></Grid>
       </Grid>
     </>
   );
