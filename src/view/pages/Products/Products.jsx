@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useProducts from "../../../hooks/useProducts";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
@@ -13,11 +13,12 @@ import ListView from './ListView';
 
 function Products() {
   // Use the useProducts hook
-  const { products } = useProducts();
+  const { products = [], isLoading } = useProducts(); // Set default to empty array
 
   // Set the default value to 30 (which corresponds to "Price (a-z)")
   const [selectedValue, setSelectedValue] = useState(30);
-  
+  const [sortedProducts, setSortedProducts] = useState(products);
+
   // Handle dropdown value change
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
@@ -28,6 +29,38 @@ function Products() {
   const handleButtonClick = (view) => {
     setActiveButton(view);
   };
+
+  // Sort products based on the selected value
+  const sortProducts = (value) => {
+    // Ensure products is an array
+    if (!Array.isArray(products)) return;
+
+    let sortedArray = [...products]; // Make a shallow copy of products
+
+    switch (value) {
+      case 10: // Price (lowest)
+        sortedArray.sort((a, b) => a.price - b.price);
+        break;
+      case 20: // Price (highest)
+        sortedArray.sort((a, b) => b.price - a.price);
+        break;
+      case 30: // Price (a-z)
+        sortedArray.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 40: // Price (z-a)
+        sortedArray.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      default:
+        break;
+    }
+
+    setSortedProducts(sortedArray);
+  };
+
+  // Effect to sort products whenever selectedValue changes
+  useEffect(() => {
+    sortProducts(selectedValue);
+  }, [selectedValue, products]); // Re-sort when products or selectedValue change
 
   return (
     <>
@@ -87,10 +120,10 @@ function Products() {
                   fullWidth
                   size="small"
                 >
-                  <MenuItem value={10}>Price(lowest)</MenuItem>
-                  <MenuItem value={20}>Price(highest)</MenuItem>
-                  <MenuItem value={30}>Price(a-z)</MenuItem>
-                  <MenuItem value={40}>Price(z-a)</MenuItem>
+                  <MenuItem value={10}>Price (lowest)</MenuItem>
+                  <MenuItem value={20}>Price (highest)</MenuItem>
+                  <MenuItem value={30}>Price (a-z)</MenuItem>
+                  <MenuItem value={40}>Price (z-a)</MenuItem>
                 </Select>
               </Grid>
             </Grid>
@@ -98,10 +131,10 @@ function Products() {
 
           {/* Conditionally render ListView or Grid View based on the button clicked */}
           {activeButton === 'menu' ? (
-            <ListView />
+            <ListView products={sortedProducts} />
           ) : (
             <Grid container mt={2} size={{ sm: 12 }} spacing={1}>
-              {products?.map((product) => (
+              {sortedProducts?.map((product) => (
                 <Grid
                   item
                   bgcolor={"WhiteSmoke"}

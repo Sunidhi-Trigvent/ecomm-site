@@ -9,7 +9,7 @@ const ListView = () => {
   const { products, isLoading } = useProducts();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} mt={2}>
       {products?.map((product, index) => (
         <Grid container spacing={2} sx={{ border: '1px solid gray' }} >
           {/* Image Grid Item */}
@@ -27,8 +27,8 @@ const ListView = () => {
           <Grid item size={{ md: 6 }} p={1}>
             <Typography fontSize="16px">{product?.name}</Typography>
             <Typography fontSize="14px">${product?.price}</Typography>
-            <Typography fontSize="14px">{product?.description}</Typography>
-            <Button variant="contained">Read More</Button>
+            <Typography fontSize="14px">{product?.description.slice(0,99)}</Typography>
+            <Button variant="outlined">Read More</Button>
           </Grid>
         </Grid>
       ))}
