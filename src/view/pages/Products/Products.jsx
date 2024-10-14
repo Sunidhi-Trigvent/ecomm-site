@@ -14,25 +14,22 @@ import ListView from './ListView';
 function Products() {
   // Use the useProducts hook
   const { products = [], isLoading } = useProducts(); // Set default to empty array
-
-  // Set the default value to 30 (which corresponds to "Price (a-z)")
   const [selectedValue, setSelectedValue] = useState(30);
   const [sortedProducts, setSortedProducts] = useState(products);
+  const [activeButton, setActiveButton] = useState('grid'); // Default to grid view
 
   // Handle dropdown value change
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
-  const [activeButton, setActiveButton] = useState('grid'); // Default to grid view
-
   const handleButtonClick = (view) => {
     setActiveButton(view);
+    sortProducts(selectedValue);
   };
 
   // Sort products based on the selected value
   const sortProducts = (value) => {
-    // Ensure products is an array
     if (!Array.isArray(products)) return;
 
     let sortedArray = [...products]; // Make a shallow copy of products
@@ -67,9 +64,7 @@ function Products() {
       <Grid container spacing={2}>
         <Grid item size={2}></Grid>
         <Grid item size={{ sm: 2 }}>
-          {/* Sidebar Grid Starts */}
           <SidebarComp />
-          {/* Sidebar ends */}
         </Grid>
         <Grid item size={{ sm: 6 }} mt={1}>
           <Grid item size={{ sm: 12 }}>
@@ -81,9 +76,6 @@ function Products() {
                   sx={{
                     bgcolor: activeButton === 'grid' ? 'black' : 'transparent',
                     color: activeButton === 'grid' ? 'white' : 'inherit',
-                    '&:hover': {
-                      bgcolor: activeButton === 'grid' ? 'black' : 'rgba(0, 0, 0, 0.04)',
-                    },
                   }}
                 >
                   <GridViewIcon />
@@ -94,9 +86,6 @@ function Products() {
                   sx={{
                     bgcolor: activeButton === 'menu' ? 'black' : 'transparent',
                     color: activeButton === 'menu' ? 'white' : 'inherit',
-                    '&:hover': {
-                      bgcolor: activeButton === 'menu' ? 'black' : 'rgba(0, 0, 0, 0.04)',
-                    },
                   }}
                 >
                   <MenuIcon />
@@ -142,7 +131,7 @@ function Products() {
                   textAlign={"center"}
                   p={1}
                   borderRadius={2}
-                  key={product.id} // Ensure you have a unique key for each item
+                  key={product.id}
                 >
                   <Box
                     component={"img"}

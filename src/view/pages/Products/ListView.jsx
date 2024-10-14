@@ -1,17 +1,13 @@
 import React from "react";
-import { Box, Button, Grid2, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
-import useProducts from "../../../hooks/useProducts";
-import { blue } from "@mui/material/colors";
 
-const ListView = () => {
-  // Use the useProducts hook
-  const { products, isLoading } = useProducts();
-
+const ListView = ({ products }) => { // Accept products as a prop
   return (
     <Grid container spacing={2} mt={2}>
-      {products?.map((product, index) => (
-        <Grid container spacing={2} sx={{ border: '1px solid gray' }} >
+      {products?.map((product) => (
+        <Grid container spacing={2} sx={{ border: '1px solid gray' }} key={product.id}> {/* Add a key here */}
           {/* Image Grid Item */}
           <Grid item size={{ md: 6 }} p={1}>
             <Box
@@ -27,7 +23,7 @@ const ListView = () => {
           <Grid item size={{ md: 6 }} p={1}>
             <Typography fontSize="16px">{product?.name}</Typography>
             <Typography fontSize="14px">${product?.price}</Typography>
-            <Typography fontSize="14px">{product?.description.slice(0,99)}</Typography>
+            <Typography fontSize="14px">{product?.description.slice(0, 99)}</Typography>
             <Button variant="outlined">Read More</Button>
           </Grid>
         </Grid>
