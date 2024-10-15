@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from "react";
 import useProducts from "../../../hooks/useProducts";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
@@ -8,54 +8,85 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconButton, Stack } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import MenuIcon from "@mui/icons-material/Menu";
-import SidebarComp from './sidebarcomp';
-import ListView from './ListView';
+import SidebarComp from "./sidebarcomp";
+import ListView from "./ListView";
 
 function Products() {
-  // Use the useProducts hook
-  const { products = [], isLoading } = useProducts(); // Set default to empty array
+  const { products, isLoading } = useProducts();
   const [selectedValue, setSelectedValue] = useState(30);
-  const [sortedProducts, setSortedProducts] = useState(products);
-  const [activeButton, setActiveButton] = useState('grid'); // Default to grid view
-  const [filteredProducts, setFilteredProducts] = useState(products); // State to store filtered products
+  const [sortedProducts, setSortedProducts] = useState(products || []);
+  const [activeButton, setActiveButton] = useState("grid");
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [selectedCompany, setSelectedCompany] = useState(10); // State for selected company
+  const [category, setCategory] = useState(30);
 
-  // Handle dropdown value change
-  const handleSelectChange = (event) => {
-    setSelectedValue(event.target.value);
+  // Extract unique companies from products
+  const uniqueCompanies = products
+    ? [...new Set(products.map((product) => product?.company))]
+    : []; // Add this line
+
+  // Handle company selection
+  const handleCompanySelect = (company) => {
+    setSelectedCompany(company);
   };
+
+  useMemo(() => {
+    setSortedProducts(products);
+  }, [products]);
 
   const handleButtonClick = (view) => {
     setActiveButton(view);
     sortProducts(selectedValue);
   };
 
-  // Function to handle category click
   const handleCategoryClick = (category) => {
-    if (category === "All") {
-      setFilteredProducts(products); // Show all products if "All" is selected
-    } else {
-      const filtered = products.filter((product) => product.category === category);
-      setFilteredProducts(filtered); // Filter products by selected category
+    setCategory(category);
+    let filtered = products;
+    if (category !== "All") {
+      filtered = filtered.filter((product) => product.category === category);
     }
+    // Filter by company if one is selected
+    if (selectedCompany !== 10) {
+      filtered = filtered.filter(
+        (product) => product.company === uniqueCompanies[selectedCompany - 20]
+      ); // Adjust based on selected company index
+    }
+
+    setFilteredProducts(filtered);
   };
 
-  // Sort products based on the selected value
+  useEffect(() => {
+    // Filter by company if one is selected
+    let filtered = products;
+    if (category !== "All") {
+      filtered = filtered.filter((product) => product.category === category);
+    }
+    // Filter by company if one is selected
+    if (selectedCompany !== 10) {
+      filtered = filtered.filter(
+        (product) => product.company === uniqueCompanies[selectedCompany - 20]
+      ); // Adjust based on selected company index
+    }
+
+    setFilteredProducts(filtered);
+  }, [selectedCompany]);
+
   const sortProducts = (value) => {
     if (!Array.isArray(filteredProducts)) return;
 
-    let sortedArray = [...filteredProducts]; // Make a shallow copy of filteredProducts
+    let sortedArray = [...filteredProducts];
 
     switch (value) {
-      case 10: // Price (lowest)
+      case 10:
         sortedArray.sort((a, b) => a.price - b.price);
         break;
-      case 20: // Price (highest)
+      case 20:
         sortedArray.sort((a, b) => b.price - a.price);
         break;
-      case 30: // Price (a-z)
+      case 30:
         sortedArray.sort((a, b) => a.name.localeCompare(b.name));
         break;
-      case 40: // Price (z-a)
+      case 40:
         sortedArray.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
@@ -65,58 +96,54 @@ function Products() {
     setSortedProducts(sortedArray);
   };
 
-  // Effect to sort products whenever selectedValue changes
   useEffect(() => {
     sortProducts(selectedValue);
-  }, [selectedValue, filteredProducts]); // Re-sort when filteredProducts or selectedValue change
+  }, [selectedValue, filteredProducts]);
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item size={2}></Grid>
         <Grid item size={{ sm: 2 }}>
-          <SidebarComp onCategoryClick={handleCategoryClick} />
+          <SidebarComp
+            onCategoryClick={handleCategoryClick}
+            onCompanySelect={handleCompanySelect}
+          />
         </Grid>
         <Grid item size={{ sm: 6 }} mt={1}>
           <Grid item size={{ sm: 12 }}>
             <Grid container spacing={2} alignItems={"center"}>
-              {/* Icons Display */}
               <Grid item size={2}>
                 <IconButton
-                  onClick={() => handleButtonClick('grid')}
+                  onClick={() => handleButtonClick("grid")}
                   sx={{
-                    bgcolor: activeButton === 'grid' ? 'black' : 'transparent',
-                    color: activeButton === 'grid' ? 'white' : 'inherit',
+                    bgcolor: activeButton === "grid" ? "black" : "transparent",
+                    color: activeButton === "grid" ? "white" : "inherit",
                   }}
                 >
                   <GridViewIcon />
                 </IconButton>
-
                 <IconButton
-                  onClick={() => handleButtonClick('menu')}
+                  onClick={() => handleButtonClick("menu")}
                   sx={{
-                    bgcolor: activeButton === 'menu' ? 'black' : 'transparent',
-                    color: activeButton === 'menu' ? 'white' : 'inherit',
+                    bgcolor: activeButton === "menu" ? "black" : "transparent",
+                    color: activeButton === "menu" ? "white" : "inherit",
                   }}
                 >
                   <MenuIcon />
                 </IconButton>
               </Grid>
-
-              {/* Products Counting */}
               <Grid item size={6}>
                 <Typography width={200} sx={{ float: "right" }}>
                   Total Products
                 </Typography>
               </Grid>
-
-              {/* Select Box */}
               <Grid item size={4}>
                 <Select
                   labelId="product-select-label"
                   id="product-select"
                   value={selectedValue}
-                  onChange={handleSelectChange}
+                  onChange={(event) => setSelectedValue(event.target.value)}
                   fullWidth
                   size="small"
                 >
@@ -129,8 +156,7 @@ function Products() {
             </Grid>
           </Grid>
 
-          {/* Conditionally render ListView or Grid View based on the button clicked */}
-          {activeButton === 'menu' ? (
+          {activeButton === "menu" ? (
             <ListView products={sortedProducts} />
           ) : (
             <Grid container mt={2} size={{ sm: 12 }} spacing={1}>
