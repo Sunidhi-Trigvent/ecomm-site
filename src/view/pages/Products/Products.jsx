@@ -12,13 +12,12 @@ import SidebarComp from './sidebarcomp';
 import ListView from './ListView';
 
 function Products() {
-  // Use the useProducts hook
-  const { products = [], isLoading } = useProducts(); // Set default to empty array
+  const { products = [], isLoading } = useProducts();
   const [selectedValue, setSelectedValue] = useState(30);
   const [sortedProducts, setSortedProducts] = useState(products);
-  const [activeButton, setActiveButton] = useState('grid'); // Default to grid view
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [activeButton, setActiveButton] = useState('grid');
 
-  // Handle dropdown value change
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -28,23 +27,22 @@ function Products() {
     sortProducts(selectedValue);
   };
 
-  // Sort products based on the selected value
   const sortProducts = (value) => {
-    if (!Array.isArray(products)) return;
+    if (!Array.isArray(filteredProducts)) return;
 
-    let sortedArray = [...products]; // Make a shallow copy of products
+    let sortedArray = [...filteredProducts];
 
     switch (value) {
-      case 10: // Price (lowest)
+      case 10:
         sortedArray.sort((a, b) => a.price - b.price);
         break;
-      case 20: // Price (highest)
+      case 20:
         sortedArray.sort((a, b) => b.price - a.price);
         break;
-      case 30: // Price (a-z)
+      case 30:
         sortedArray.sort((a, b) => a.name.localeCompare(b.name));
         break;
-      case 40: // Price (z-a)
+      case 40:
         sortedArray.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
@@ -54,22 +52,30 @@ function Products() {
     setSortedProducts(sortedArray);
   };
 
-  // Effect to sort products whenever selectedValue changes
   useEffect(() => {
     sortProducts(selectedValue);
-  }, [selectedValue, products]); // Re-sort when products or selectedValue change
+  }, [selectedValue, filteredProducts]);
+
+  // Function to filter products by category
+  const handleCategoryFilter = (category) => {
+    if (category === "All") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) => product.category === category);
+      setFilteredProducts(filtered);
+    }
+  };
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item size={2}></Grid>
         <Grid item size={{ sm: 2 }}>
-          <SidebarComp />
+          <SidebarComp onCategoryFilter={handleCategoryFilter} />
         </Grid>
         <Grid item size={{ sm: 6 }} mt={1}>
           <Grid item size={{ sm: 12 }}>
             <Grid container spacing={2} alignItems={"center"}>
-              {/* Icons Display */}
               <Grid item size={2}>
                 <IconButton
                   onClick={() => handleButtonClick('grid')}
@@ -92,14 +98,12 @@ function Products() {
                 </IconButton>
               </Grid>
 
-              {/* Products Counting */}
               <Grid item size={6}>
                 <Typography width={200} sx={{ float: "right" }}>
                   Total Products
                 </Typography>
               </Grid>
 
-              {/* Select Box */}
               <Grid item size={4}>
                 <Select
                   labelId="product-select-label"
@@ -118,7 +122,6 @@ function Products() {
             </Grid>
           </Grid>
 
-          {/* Conditionally render ListView or Grid View based on the button clicked */}
           {activeButton === 'menu' ? (
             <ListView products={sortedProducts} />
           ) : (

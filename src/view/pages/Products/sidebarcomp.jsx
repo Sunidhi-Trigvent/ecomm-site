@@ -7,61 +7,59 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import useProducts from "../../../hooks/useProducts";
 
-const SidebarComp = () => {
-  // Use the useProducts hook
+const SidebarComp = ({ onCategoryFilter }) => {
   const { products, isLoading } = useProducts();
-
-  // Set the default value to 30 (which corresponds to "Price (a-z)")
   const [selectedValue, setSelectedValue] = useState(30);
 
-  // Handle dropdown value change
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
-  // Extract unique categories using a Set if products is defined
-  const uniqueCategories = products ? [...new Set(products.map((product) => product?.category))] : [];
+  const uniqueCategories = products ? ["All", ...new Set(products.map((product) => product?.category))] : [];
 
   return (
-    <>
-      {/* Search Box */}
-      <Stack gap={2} p={1}>
-        <TextField
-          id="outlined-basic"
-          label="Search"
-          variant="outlined"
-          size="small"
-        />
-        {/* Search Box Ends */}
+    <Stack gap={2} p={1}>
+      <TextField
+        id="outlined-basic"
+        label="Search"
+        variant="outlined"
+        size="small"
+      />
 
-        <Typography fontWeight="bold">Category</Typography>
-        {uniqueCategories.map((category, index) => (
-          <Typography key={index} fontSize={"16px"}>{category}</Typography>
-        ))}
-
-        <Typography fontWeight="bold">Company</Typography>
-        <Select
-          labelId="product-select-label"
-          id="product-select"
-          value={selectedValue}
-          onChange={handleSelectChange}
-          fullWidth
-          size="small"
+      <Typography fontWeight="bold">Category</Typography>
+      {uniqueCategories.map((category, index) => (
+        <Typography
+          key={index}
+          fontSize={"16px"}
+          sx={{ cursor: "pointer" }}
+          onClick={() => onCategoryFilter(category)}
         >
-          <MenuItem value={10}>Apple</MenuItem>
-          <MenuItem value={20}>Samsung</MenuItem>
-          <MenuItem value={30}>All</MenuItem>
-          <MenuItem value={40}>Asus</MenuItem>
-        </Select>
+          {category}
+        </Typography>
+      ))}
 
-        <Typography fontWeight="bold">Colors</Typography>
-        <Typography>All</Typography>
+      <Typography fontWeight="bold">Company</Typography>
+      <Select
+        labelId="product-select-label"
+        id="product-select"
+        value={selectedValue}
+        onChange={handleSelectChange}
+        fullWidth
+        size="small"
+      >
+        <MenuItem value={10}>Apple</MenuItem>
+        <MenuItem value={20}>Samsung</MenuItem>
+        <MenuItem value={30}>All</MenuItem>
+        <MenuItem value={40}>Asus</MenuItem>
+      </Select>
 
-        <Typography fontWeight="bold">Price</Typography>
+      <Typography fontWeight="bold">Colors</Typography>
+      <Typography>All</Typography>
 
-        <Button variant="contained">Clear Filters</Button>
-      </Stack>
-    </>
+      <Typography fontWeight="bold">Price</Typography>
+
+      <Button variant="contained">Clear Filters</Button>
+    </Stack>
   );
 };
 
