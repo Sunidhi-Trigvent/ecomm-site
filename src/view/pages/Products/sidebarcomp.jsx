@@ -1,11 +1,10 @@
-// SidebarComp.js
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useProducts from "../../../hooks/useProducts";
 
-const SidebarComp = ({ onCategoryClick, onCompanySelect }) => {
+const SidebarComp = ({ onCategoryClick, onCompanySelect, onSearchChange }) => {
   const { products } = useProducts();
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedValue, setSelectedValue] = useState(10);
@@ -25,10 +24,25 @@ const SidebarComp = ({ onCategoryClick, onCompanySelect }) => {
     onCompanySelect(event.target.value); // Notify parent component of the company change
   };
 
+
+  // Logic for search textbox 
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Handle search query change
+  const handleSearchChange = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+    onSearchChange(query); // Pass the search query to the parent component
+  };
+
   return (
     <Stack gap={2} p={1}>
       {/* Search Box */}
-      <TextField id="outlined-basic" label="Search" variant="outlined" size="small" />
+      <TextField id="outlined-basic" label="Search" variant="outlined" size="small" 
+       value={searchQuery}
+       onChange={handleSearchChange}
+      />
 
       <Typography fontWeight="bold">Category</Typography>
       <Typography key="all" fontSize={"16px"} onClick={() => handleCategoryClick("All")} sx={{ cursor: 'pointer', color: activeCategory === "All" ? 'pink' : 'black', borderBottom: activeCategory === "All" ? '2px solid pink' : 'none', width: 'fit-content' }}>

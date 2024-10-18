@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import useProducts from "../../../hooks/useProducts";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
@@ -16,60 +16,64 @@ function Products() {
   const [selectedValue, setSelectedValue] = useState(30);
   const [sortedProducts, setSortedProducts] = useState(products || []);
   const [activeButton, setActiveButton] = useState("grid");
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [selectedCompany, setSelectedCompany] = useState(10); // State for selected company
-  const [category, setCategory] = useState(30);
+  const [filteredProducts, setFilteredProducts] = useState(products || []);
+  const [selectedCompany, setSelectedCompany] = useState(10);
+  const [category, setCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
 
-  // Extract unique companies from products
   const uniqueCompanies = products
     ? [...new Set(products.map((product) => product?.company))]
-    : []; // Add this line
+    : [];
 
-  // Handle company selection
   const handleCompanySelect = (company) => {
     setSelectedCompany(company);
   };
 
-  useMemo(() => {
-    setSortedProducts(products);
-  }, [products]);
-
-  const handleButtonClick = (view) => {
-    setActiveButton(view);
-    sortProducts(selectedValue);
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
   };
 
   const handleCategoryClick = (category) => {
     setCategory(category);
-    let filtered = products;
+    applyFilters(category, selectedCompany, searchQuery);
+  };
+
+  const handleButtonClick = (view) => {
+    setActiveButton(view);
+  };
+
+  const applyFilters = (category, selectedCompany, searchQuery) => {
+    let filtered = products || [];
+
     if (category !== "All") {
       filtered = filtered.filter((product) => product.category === category);
     }
-    // Filter by company if one is selected
+
     if (selectedCompany !== 10) {
       filtered = filtered.filter(
         (product) => product.company === uniqueCompanies[selectedCompany - 20]
-      ); // Adjust based on selected company index
+      );
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
 
     setFilteredProducts(filtered);
   };
 
   useEffect(() => {
-    // Filter by company if one is selected
-    let filtered = products;
-    if (category !== "All") {
-      filtered = filtered.filter((product) => product.category === category);
+    if (products) {
+      setSortedProducts(products);
+      applyFilters(category, selectedCompany, searchQuery);
     }
-    // Filter by company if one is selected
-    if (selectedCompany !== 10) {
-      filtered = filtered.filter(
-        (product) => product.company === uniqueCompanies[selectedCompany - 20]
-      ); // Adjust based on selected company index
-    }
+  }, [products, category, selectedCompany, searchQuery]);
 
-    setFilteredProducts(filtered);
-  }, [selectedCompany]);
+  useEffect(() => {
+    sortProducts(selectedValue);
+  }, [selectedValue, filteredProducts]);
 
   const sortProducts = (value) => {
     if (!Array.isArray(filteredProducts)) return;
@@ -96,10 +100,6 @@ function Products() {
     setSortedProducts(sortedArray);
   };
 
-  useEffect(() => {
-    sortProducts(selectedValue);
-  }, [selectedValue, filteredProducts]);
-
   return (
     <>
       <Grid container spacing={2}>
@@ -108,6 +108,7 @@ function Products() {
           <SidebarComp
             onCategoryClick={handleCategoryClick}
             onCompanySelect={handleCompanySelect}
+            onSearchChange={handleSearchChange} // Pass the search handler to SidebarComp
           />
         </Grid>
         <Grid item size={{ sm: 6 }} mt={1}>
