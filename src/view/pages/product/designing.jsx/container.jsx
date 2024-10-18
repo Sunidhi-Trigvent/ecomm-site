@@ -126,6 +126,7 @@ export default function Container_main({ productDetail }) {
 
         {/* Render color buttons */}
         <Stack direction="row" spacing={1} mt={2}>
+          <Typography>Color:</Typography>
           {productDetail?.colors.map((color, index) => (
             <Box
               key={index}

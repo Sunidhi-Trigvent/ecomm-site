@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   IconButton,
   InputAdornment,
@@ -11,18 +12,25 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useProducts from "../../../hooks/useProducts";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckIcon from "@mui/icons-material/Check";
+import Slider from '@mui/material/Slider';
 
 const SidebarComp = ({
   onCategoryClick,
   onCompanySelect,
   setSearchQuery,
   searchQuery,
+ productDetail
 }) => {
+  console.log("hi");
+  console.log(productDetail);
   const { products } = useProducts();
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedValue, setSelectedValue] = useState(10);
   const [selectedCompany, setSelectedCompany] = useState(10); // State for company selection
   const[querydata,setQueryData]=useState("");
+   // State to track the active color button
+   const [activeColor, setActiveColor] = React.useState(null);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -53,6 +61,19 @@ const SidebarComp = ({
   const handleSearch = () => {
     // console.log("hi");
     setSearchQuery(querydata);
+  };
+
+  //colors-code
+  // Function to convert hex color to RGBA with reduced opacity
+  const getDullColor = (color) => {
+    // Extract the hex color code
+    const hex = color.replace("#", "");
+    // Convert hex to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    // Return RGBA color with reduced opacity (0.5 for dull shade)
+    return `rgba(${r}, ${g}, ${b}, 0.5)`;
   };
 
   return (
@@ -127,9 +148,42 @@ const SidebarComp = ({
       </Select>
 
       <Typography fontWeight="bold">Colors</Typography>
-      <Typography>All</Typography>
+      
+      <Stack direction="row" spacing={1} mt={2}>
+          <Typography>All:</Typography>
+          {productDetail?.colors.map((color, index) => (
+            <Box
+              key={index}
+              onClick={() => setActiveColor(color)} // Set the clicked color as active
+              sx={{
+                backgroundColor: activeColor === color ? color : getDullColor(color), // Active button background color
+                color: activeColor === color ? "#fff" : color, // Change text color based on active state
+                border:
+                  activeColor === color
+                    ? `2px solid ${color}`
+                    : `2px solid ${color}`, // Border color based on active state
+                borderRadius: "50%", // Make button circular
+                width: "15px", // Set width for circular button
+                height: "15px", // Set height for circular button
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative", // For positioning check icon
+                "&:hover": {
+                  backgroundColor: activeColor === color ? color : "#f0f0f0", // Hover effect
+                },
+              }}
+            >
+              {activeColor === color && <CheckIcon style={{ color: "#fff" }} />}{" "}
+              {/* Show check icon for active button */}
+            </Box>
+          ))}
+        </Stack>
 
       <Typography fontWeight="bold">Price</Typography>
+      <Box sx={{ width: 110 }}>
+      <Slider defaultValue={20} aria-label="Default" valueLabelDisplay="auto" />
+    </Box>
 
       <Button variant="contained">Clear Filters</Button>
     </Stack>
