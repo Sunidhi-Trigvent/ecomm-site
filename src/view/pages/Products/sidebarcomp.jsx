@@ -1,10 +1,23 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useProducts from "../../../hooks/useProducts";
+import SearchIcon from "@mui/icons-material/Search";
 
-const SidebarComp = ({ onCategoryClick, onCompanySelect, onSearchChange }) => {
+const SidebarComp = ({
+  onCategoryClick,
+  onCompanySelect,
+  setSearchQuery,
+  searchQuery,
+}) => {
   const { products } = useProducts();
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedValue, setSelectedValue] = useState(10);
@@ -15,8 +28,12 @@ const SidebarComp = ({ onCategoryClick, onCompanySelect, onSearchChange }) => {
     onCategoryClick(category);
   };
 
-  const uniqueCategories = products ? [...new Set(products.map((product) => product?.category))] : [];
-  const uniqueCompanies = products ? [...new Set(products.map((product) => product?.company))] : []; // Extract unique companies
+  const uniqueCategories = products
+    ? [...new Set(products.map((product) => product?.category))]
+    : [];
+  const uniqueCompanies = products
+    ? [...new Set(products.map((product) => product?.company))]
+    : []; // Extract unique companies
 
   // Handle company selection
   const handleCompanyChange = (event) => {
@@ -24,32 +41,62 @@ const SidebarComp = ({ onCategoryClick, onCompanySelect, onSearchChange }) => {
     onCompanySelect(event.target.value); // Notify parent component of the company change
   };
 
-
-  // Logic for search textbox 
-
-  const [searchQuery, setSearchQuery] = useState("");
-
   // Handle search query change
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
-    onSearchChange(query); // Pass the search query to the parent component
   };
 
   return (
     <Stack gap={2} p={1}>
       {/* Search Box */}
-      <TextField id="outlined-basic" label="Search" variant="outlined" size="small" 
-       value={searchQuery}
-       onChange={handleSearchChange}
+      <TextField
+        id="outlined-basic"
+        label="Search"
+        variant="outlined"
+        size="small"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment>
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
 
       <Typography fontWeight="bold">Category</Typography>
-      <Typography key="all" fontSize={"16px"} onClick={() => handleCategoryClick("All")} sx={{ cursor: 'pointer', color: activeCategory === "All" ? 'pink' : 'black', borderBottom: activeCategory === "All" ? '2px solid pink' : 'none', width: 'fit-content' }}>
+      <Typography
+        key="all"
+        fontSize={"16px"}
+        onClick={() => handleCategoryClick("All")}
+        sx={{
+          cursor: "pointer",
+          color: activeCategory === "All" ? "pink" : "black",
+          borderBottom: activeCategory === "All" ? "2px solid pink" : "none",
+          width: "fit-content",
+        }}
+      >
         All
       </Typography>
       {uniqueCategories.map((category, index) => (
-        <Typography key={index} fontSize={"16px"} onClick={() => handleCategoryClick(category)} sx={{ cursor: 'pointer', color: activeCategory === category ? 'pink' : 'black', borderBottom: activeCategory === category ? '2px solid pink' : 'none', width: 'fit-content' }}>
+        <Typography
+          key={index}
+          fontSize={"16px"}
+          onClick={() => handleCategoryClick(category)}
+          sx={{
+            cursor: "pointer",
+            color: activeCategory === category ? "pink" : "black",
+            borderBottom:
+              activeCategory === category ? "2px solid pink" : "none",
+            width: "fit-content",
+          }}
+        >
           {category}
         </Typography>
       ))}
@@ -65,7 +112,9 @@ const SidebarComp = ({ onCategoryClick, onCompanySelect, onSearchChange }) => {
       >
         <MenuItem value={10}>All</MenuItem>
         {uniqueCompanies.map((company, index) => (
-          <MenuItem key={index} value={index + 20}>{company}</MenuItem> // Use unique company names with distinct values
+          <MenuItem key={index} value={index + 20}>
+            {company}
+          </MenuItem> // Use unique company names with distinct values
         ))}
       </Select>
 

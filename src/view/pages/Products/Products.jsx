@@ -19,7 +19,7 @@ function Products() {
   const [filteredProducts, setFilteredProducts] = useState(products || []);
   const [selectedCompany, setSelectedCompany] = useState(10);
   const [category, setCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
+  const [searchQuery, setSearchQuery] = useState("");
 
   const uniqueCompanies = products
     ? [...new Set(products.map((product) => product?.company))]
@@ -27,10 +27,6 @@ function Products() {
 
   const handleCompanySelect = (company) => {
     setSelectedCompany(company);
-  };
-
-  const handleSearchChange = (query) => {
-    setSearchQuery(query);
   };
 
   const handleCategoryClick = (category) => {
@@ -108,7 +104,8 @@ function Products() {
           <SidebarComp
             onCategoryClick={handleCategoryClick}
             onCompanySelect={handleCompanySelect}
-            onSearchChange={handleSearchChange} // Pass the search handler to SidebarComp
+            setSearchQuery={setSearchQuery}
+            searchQuery={searchQuery}
           />
         </Grid>
         <Grid item size={{ sm: 6 }} mt={1}>
