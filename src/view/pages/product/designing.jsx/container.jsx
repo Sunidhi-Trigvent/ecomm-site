@@ -127,7 +127,7 @@ export default function Container_main({ productDetail }) {
         {/* Render color buttons */}
         <Stack direction="row" spacing={1} mt={2}>
           {productDetail?.colors.map((color, index) => (
-            <Button
+            <Box
               key={index}
               onClick={() => setActiveColor(color)} // Set the clicked color as active
               sx={{
@@ -151,7 +151,7 @@ export default function Container_main({ productDetail }) {
             >
               {activeColor === color && <CheckIcon style={{ color: "#fff" }} />}{" "}
               {/* Show check icon for active button */}
-            </Button>
+            </Box>
           ))}
         </Stack>
         <Box sx={{ mt: 2 }}>

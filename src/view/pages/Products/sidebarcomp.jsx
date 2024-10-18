@@ -22,6 +22,7 @@ const SidebarComp = ({
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedValue, setSelectedValue] = useState(10);
   const [selectedCompany, setSelectedCompany] = useState(10); // State for company selection
+  const[querydata,setQueryData]=useState("");
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -44,7 +45,14 @@ const SidebarComp = ({
   // Handle search query change
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
+    // setSearchQuery(query);
+    setQueryData(query);
+  };
+
+  // handle search- on icon click
+  const handleSearch = () => {
+    // console.log("hi");
+    setSearchQuery(querydata);
   };
 
   return (
@@ -55,13 +63,13 @@ const SidebarComp = ({
         label="Search"
         variant="outlined"
         size="small"
-        value={searchQuery}
+        // value={searchQuery}
         onChange={handleSearchChange}
         slotProps={{
           input: {
             endAdornment: (
               <InputAdornment>
-                <IconButton>
+                <IconButton onClick={handleSearch}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>

@@ -50,7 +50,8 @@ function Products() {
         (product) => product.company === uniqueCompanies[selectedCompany - 20]
       );
     }
-
+     
+    //search logic
     if (searchQuery) {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
