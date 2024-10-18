@@ -20,10 +20,8 @@ const SidebarComp = ({
   onCompanySelect,
   setSearchQuery,
   searchQuery,
- productDetail
+
 }) => {
-  console.log("hi");
-  console.log(productDetail);
   const { products } = useProducts();
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedValue, setSelectedValue] = useState(10);
@@ -151,7 +149,7 @@ const SidebarComp = ({
       
       <Stack direction="row" spacing={1} mt={2}>
           <Typography>All:</Typography>
-          {productDetail?.colors.map((color, index) => (
+          {products?.colors.map((color, index) => (
             <Box
               key={index}
               onClick={() => setActiveColor(color)} // Set the clicked color as active
