@@ -1,22 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  user: null,
-};
+// src/redux/userSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
-  name: "user",
-  initialState,
+  name: 'user',
+  initialState: null, // Initial state can be null or an empty object
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload; // Store user data in the Redux state
-    },
-    clearUser: (state) => {
-      state.user = null; // Clear user data on logout
-    },
+    setUser: (state, action) => action.payload,
+    clearUser: () => null, // Reset user data on logout
   },
 });
 
-// Export actions and reducer
 export const { setUser, clearUser } = userSlice.actions;
+
 export default userSlice.reducer;
