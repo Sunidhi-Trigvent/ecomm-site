@@ -29,10 +29,10 @@ export default function FeatureComp() {
           <Box
             key={product?.id}
             textAlign="center"
-            onClick={() => navigate(`/product/${product?.id}`)}
+            onClick={() => navigate(`/product/${product?._id}`)}
           >
             <img
-              src={product?.image}
+              src={product?.image?.[0]?.url}
               alt={product?.name}
               style={{ width: "200px", height: "200px", objectFit: "cover" }}
             />

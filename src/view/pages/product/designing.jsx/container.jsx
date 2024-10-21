@@ -19,17 +19,19 @@ export default function Container_main({ productDetail }) {
   const [activeColor, setActiveColor] = React.useState(null);
 
   //state to track amount
-  const[amount,setAmount]=React.useState(1);
+  const [amount, setAmount] = React.useState(1);
 
   //funct for INC/DEC
 
-  const setDecrease=()=>{
-    amount>1? setAmount(amount-1):setAmount(1);
-  }
+  const setDecrease = () => {
+    amount > 1 ? setAmount(amount - 1) : setAmount(1);
+  };
 
-  const setIncrease=()=>{
-    amount < productDetail.stock? setAmount(amount+1): setAmount(productDetail.stock);
-  }
+  const setIncrease = () => {
+    amount < productDetail.stock
+      ? setAmount(amount + 1)
+      : setAmount(productDetail.stock);
+  };
 
   // Fallback if productDetail is not available
   const images = productDetail?.image || [];
@@ -76,7 +78,7 @@ export default function Container_main({ productDetail }) {
         <Grid container direction="row" spacing={2}>
           {/* grid items for four images */}
           <Grid item xs={6}>
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
               <Grid item key={index}>
                 <Box
                   component={"img"}
@@ -127,12 +129,13 @@ export default function Container_main({ productDetail }) {
         {/* Render color buttons */}
         <Stack direction="row" spacing={1} mt={2}>
           <Typography>Color:</Typography>
-          {productDetail?.colors.map((color, index) => (
+          {productDetail?.colors?.map((color, index) => (
             <Box
               key={index}
               onClick={() => setActiveColor(color)} // Set the clicked color as active
               sx={{
-                backgroundColor: activeColor === color ? color : getDullColor(color), // Active button background color
+                backgroundColor:
+                  activeColor === color ? color : getDullColor(color), // Active button background color
                 color: activeColor === color ? "#fff" : color, // Change text color based on active state
                 border:
                   activeColor === color
@@ -156,14 +159,18 @@ export default function Container_main({ productDetail }) {
           ))}
         </Stack>
         <Box sx={{ mt: 2 }}>
+          {/* cartamount-Toggle */}
+          <CartAmountToggle
+            amount={amount}
+            setDecrease={setDecrease}
+            setIncrease={setIncrease}
+          />
+        </Box>
 
-        {/* cartamount-Toggle */}
-          <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease}/>
-          </Box>
-
-          {/* Cart Button */}
-          <Button variant="contained" onClick={() => navigate("/cart")}>Add To Cart</Button>
-
+        {/* Cart Button */}
+        <Button variant="contained" onClick={() => navigate("/cart")}>
+          Add To Cart
+        </Button>
       </Grid>
     </Grid>
   );

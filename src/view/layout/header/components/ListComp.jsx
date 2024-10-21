@@ -5,11 +5,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Link, useLocation } from "react-router-dom";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Import the cart icon
-import IconButton from "@mui/material/IconButton"; // Import IconButton for the icon
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import IconButton from "@mui/material/IconButton";
 
 export default function BasicList() {
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false); // State to track login status
+
+  const handleLoginLogout = () => {
+    setIsLoggedIn(!isLoggedIn); // Toggle login state
+  };
 
   const navItems = [
     {
@@ -34,9 +39,15 @@ export default function BasicList() {
     },
     {
       id: 5,
+      name: isLoggedIn ? "LOGOUT" : "LOGIN", // Change to Logout if user is logged in
+      navLinks: isLoggedIn ? "/" : "/login", // Redirect to home or login page
+      onClick: handleLoginLogout, // Handle login/logout click
+    },
+    {
+      id: 6,
       name: "CART",
       navLinks: "/cart",
-      icon: <ShoppingCartIcon />, // Add the icon for the cart
+      icon: <ShoppingCartIcon />,
     },
   ];
 
@@ -54,13 +65,14 @@ export default function BasicList() {
             <ListItemButton
               component={Link}
               to={item.navLinks}
+              onClick={item.onClick ? item.onClick : null} // Attach click handler if exists
               sx={{
                 "&:hover": {
                   backgroundColor: "primary.light",
                 },
               }}
             >
-              {item.id === 5 ? ( // Check if the item is CART to render the icon
+              {item.id === 6 ? (
                 <IconButton aria-label="cart" sx={{ color: "inherit" }}>
                   {item.icon}
                 </IconButton>

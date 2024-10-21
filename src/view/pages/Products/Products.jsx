@@ -12,7 +12,7 @@ import SidebarComp from "./sidebarcomp";
 import ListView from "./ListView";
 
 function Products() {
-  const { products, isLoading } = useProducts();
+  const { products = [], isLoading } = useProducts();
   const [selectedValue, setSelectedValue] = useState(30);
   const [sortedProducts, setSortedProducts] = useState(products || []);
   const [activeButton, setActiveButton] = useState("grid");
@@ -50,7 +50,7 @@ function Products() {
         (product) => product.company === uniqueCompanies[selectedCompany - 20]
       );
     }
-     
+
     //search logic
     if (searchQuery) {
       filtered = filtered.filter((product) =>
@@ -103,6 +103,7 @@ function Products() {
         <Grid item size={2}></Grid>
         <Grid item size={{ sm: 2 }}>
           <SidebarComp
+            products={products}
             onCategoryClick={handleCategoryClick}
             onCompanySelect={handleCompanySelect}
             setSearchQuery={setSearchQuery}
@@ -171,7 +172,7 @@ function Products() {
                 >
                   <Box
                     component={"img"}
-                    src={product?.image}
+                    src={product?.image?.[0]?.url}
                     alt={product?.name}
                     width={198}
                     height={150}

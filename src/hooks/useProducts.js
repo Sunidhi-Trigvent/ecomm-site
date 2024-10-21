@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import useAuth from "./useAuth";
 
 export default function useProducts(productId) {
+  const { request } = useAuth();
+
   const {
     data: productDetails,
     isLoading: isProductLoading,
@@ -9,9 +12,7 @@ export default function useProducts(productId) {
   } = useQuery(
     "getProduct",
     async () => {
-      const response = await axios.get(
-        `https://api.pujakaitem.com/api/products?id=${productId}`
-      );
+      const response = await request.get(`/products/${productId}`);
       return response.data;
     },
     {
@@ -25,7 +26,7 @@ export default function useProducts(productId) {
     isLoading,
     isError,
   } = useQuery(`['getProducts']`, async () => {
-    const response = await axios.get("https://api.pujakaitem.com/api/products");
+    const response = await request.get("/products");
     return response.data;
   });
 
