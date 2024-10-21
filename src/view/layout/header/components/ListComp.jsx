@@ -8,13 +8,8 @@ import { Link, useLocation } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
 
-export default function BasicList() {
+const BasicList = () => {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false); // State to track login status
-
-  const handleLoginLogout = () => {
-    setIsLoggedIn(!isLoggedIn); // Toggle login state
-  };
 
   const navItems = [
     {
@@ -39,9 +34,8 @@ export default function BasicList() {
     },
     {
       id: 5,
-      name: isLoggedIn ? "LOGOUT" : "LOGIN", // Change to Logout if user is logged in
-      navLinks: isLoggedIn ? "/" : "/login", // Redirect to home or login page
-      onClick: handleLoginLogout, // Handle login/logout click
+      name: "LOGIN", // Change to Logout if user is logged in
+      navLinks: "/login", // Redirect to home or login page
     },
     {
       id: 6,
@@ -82,7 +76,14 @@ export default function BasicList() {
             </ListItemButton>
           </ListItem>
         ))}
+        {/* {isLoggedIn && firstName && ( // Conditionally render the user's first name
+          <ListItem disablePadding sx={{ width: "auto" }}>
+            <ListItemText primary={firstName} />
+          </ListItem>
+        )} */}
       </List>
     </Box>
   );
-}
+};
+
+export default BasicList;

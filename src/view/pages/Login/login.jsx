@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import useUser from '../../../hooks/useUser';
-import { useNavigate, Link } from 'react-router-dom';
-import {
-  Container,
-  Box,
-  TextField,
-  Typography,
-  Button,
-  CircularProgress,
-  Alert,
-  Grid,
-} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/userSlice'; // Import the setUser action
+import useUser  from '../../../hooks/useUser'; 
+import { Alert, Box, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Get dispatch from Redux
   const { userLogin, isLoading, isError } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,10 +19,17 @@ const Login = () => {
     setError('');
 
     try {
-      const userData = await userLogin({ email, password });
-      console.log('Login successful:', userData);
+      const response = await userLogin({ email, password });
+      const { token, data } = response; // Destructure token and data from response
+      console.log('Login successful:', response);
+
+      // Store token in local storage
+      localStorage.setItem('token', token);
+      // Dispatch user data to Redux store
+      dispatch(setUser(data));
+
       // Redirect user to the dashboard or home page on successful login
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.error('Login error:', error);
       setError('Invalid email or password. Please try again.');
@@ -37,62 +38,73 @@ const Login = () => {
 
   return (
     <Container maxWidth="xs">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+    >
+      <Typography variant="h4" component="h2" gutterBottom>
+        Login
+      </Typography>
       <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
+        component="form"
+        onSubmit={handleLogin}
+        sx={{ mt: 2, width: "100%" }}
       >
-        <Typography variant="h4" component="h2" gutterBottom>
-          Login
-        </Typography>
-        <Box component="form" onSubmit={handleLogin} sx={{ mt: 2, width: '100%' }}>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+        <TextField
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <Box sx={{ mt: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
             fullWidth
-            required
-            margin="normal"
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-          />
-          <Box sx={{ mt: 2 }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={isLoading}
-            >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
-            </Button>
-          </Box>
-          {isError && (
-            <Box sx={{ mt: 2 }}>
-              <Alert severity="error">{error}</Alert>
-            </Box>
-          )}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Login"
+            )}
+          </Button>
         </Box>
-        <Grid container justifyContent="center" sx={{ mt: 3 }}>
-          <Typography variant="body2">
-            If not registered?{' '}
-            <Link to="/register" style={{ textDecoration: 'none', color: '#1976d2' }}>
-              Create an account
-            </Link>
-          </Typography>
-        </Grid>
+        {isError && (
+          <Box sx={{ mt: 2 }}>
+            <Alert severity="error">{error}</Alert>
+          </Box>
+        )}
       </Box>
-    </Container>
+      <Grid container justifyContent="center" sx={{ mt: 3 }}>
+        <Typography variant="body2">
+          If not registered?{" "}
+          <Link
+            to="/register"
+            style={{ textDecoration: "none", color: "#1976d2" }}
+          >
+            Create an account
+          </Link>
+        </Typography>
+      </Grid>
+    </Box>
+  </Container>
   );
 };
 

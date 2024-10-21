@@ -23,7 +23,7 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     setError('');
-
+  
     try {
       const userData = await userRegister({
         firstName,
@@ -32,6 +32,9 @@ const Register = () => {
         password,
       });
       console.log('Registration successful:', userData);
+      
+     
+      
       navigate('/login'); // Redirect to login page after successful registration
     } catch (error) {
       console.error('Registration error:', error);
