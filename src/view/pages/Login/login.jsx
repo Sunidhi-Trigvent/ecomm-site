@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import useUser from '../../../hooks/useUser';
 import { useNavigate, Link } from 'react-router-dom';
-import './login.css'; // Import the CSS file for styling
+import {
+  Container,
+  Box,
+  TextField,
+  Typography,
+  Button,
+  CircularProgress,
+  Alert,
+  Grid,
+} from '@mui/material';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,8 +21,8 @@ const Login = () => {
 
   // Function to handle form submission
   const handleLogin = async (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-    setError(''); // Clear any previous errors
+    event.preventDefault();
+    setError('');
 
     try {
       const userData = await userLogin({ email, password });
@@ -27,36 +36,63 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} className="login-form">
-        <div className="input-group">
-          <label>Email:</label>
-          <input
+    <Container maxWidth="xs">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+      >
+        <Typography variant="h4" component="h2" gutterBottom>
+          Login
+        </Typography>
+        <Box component="form" onSubmit={handleLogin} sx={{ mt: 2, width: '100%' }}>
+          <TextField
+            label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            fullWidth
             required
+            margin="normal"
           />
-        </div>
-        <div className="input-group">
-          <label>Password:</label>
-          <input
+          <TextField
+            label="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            fullWidth
             required
+            margin="normal"
           />
-        </div>
-        <button type="submit" disabled={isLoading} className="login-button">
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-        {isError && <p className="error-message">{error}</p>}
-      </form>
-      <div className="register-link">
-        <p>If not registered? <Link to="/register">Create an account</Link></p>
-      </div>
-    </div>
+          <Box sx={{ mt: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+            </Button>
+          </Box>
+          {isError && (
+            <Box sx={{ mt: 2 }}>
+              <Alert severity="error">{error}</Alert>
+            </Box>
+          )}
+        </Box>
+        <Grid container justifyContent="center" sx={{ mt: 3 }}>
+          <Typography variant="body2">
+            If not registered?{' '}
+            <Link to="/register" style={{ textDecoration: 'none', color: '#1976d2' }}>
+              Create an account
+            </Link>
+          </Typography>
+        </Grid>
+      </Box>
+    </Container>
   );
 };
 

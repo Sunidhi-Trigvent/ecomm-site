@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUser from '../../../hooks/useUser';
-import './register.css';
+import {
+  Container,
+  Box,
+  TextField,
+  Typography,
+  Button,
+  CircularProgress,
+  Alert,
+} from '@mui/material';
 
 const Register = () => {
   const navigate = useNavigate();
   const { userRegister, isLoading, isError } = useUser();
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +25,12 @@ const Register = () => {
     setError('');
 
     try {
-      const userData = await userRegister({ name, email, password });
+      const userData = await userRegister({
+        firstName,
+        lastName,
+        email,
+        password,
+      });
       console.log('Registration successful:', userData);
       navigate('/login'); // Redirect to login page after successful registration
     } catch (error) {
@@ -26,42 +40,73 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Create an Account</h2>
-      <form onSubmit={handleRegister}>
-        <div className="input-group">
-          <label>Name:</label>
-          <input
+    <Container maxWidth="xs">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+      >
+        <Typography variant="h4" component="h2" gutterBottom>
+          Create an Account
+        </Typography>
+        <Box component="form" onSubmit={handleRegister} sx={{ mt: 2, width: '100%' }}>
+          <TextField
+            label="First Name"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            fullWidth
             required
+            margin="normal"
           />
-        </div>
-        <div className="input-group">
-          <label>Email:</label>
-          <input
+          <TextField
+            label="Last Name"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+          />
+          <TextField
+            label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            fullWidth
             required
+            margin="normal"
           />
-        </div>
-        <div className="input-group">
-          <label>Password:</label>
-          <input
+          <TextField
+            label="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            fullWidth
             required
+            margin="normal"
           />
-        </div>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Registering...' : 'Register'}
-        </button>
-        {isError && <p className="error-message">{error}</p>}
-      </form>
-    </div>
+          <Box sx={{ mt: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Register'}
+            </Button>
+          </Box>
+          {isError && (
+            <Box sx={{ mt: 2 }}>
+              <Alert severity="error">{error}</Alert>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Container>
   );
 };
 
