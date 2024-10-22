@@ -4,13 +4,12 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const BasicList = () => {
-  const location = useLocation();
-
+const BasicList = ({ isLoggedIn, firstName }) => {
   const navItems = [
     {
       id: 1,
@@ -32,13 +31,29 @@ const BasicList = () => {
       name: "CONTACT",
       navLinks: "/contact",
     },
-    {
-      id: 5,
-      name: "LOGIN", // Change to Logout if user is logged in
-      navLinks: "/login", // Redirect to home or login page
-    },
+    // Conditionally render the user's first name here after 'CONTACT' and before 'LOGIN'
+    ...(isLoggedIn && firstName
+      ? [
+          {
+            id: 5,
+            name: firstName,
+            navLinks: "#", // or keep as "#" since it's just text
+          },
+        ]
+      : []),
     {
       id: 6,
+      name: isLoggedIn ? (
+        <span>
+          LOGIN <AccountCircleIcon sx={{ fontSize: 20, marginLeft: 0.5 }} />
+        </span>
+      ) : (
+        "LOGIN"
+      ), // Show "LOGIN" text or with icon
+      navLinks: "/login",
+    },
+    {
+      id: 7,
       name: "CART",
       navLinks: "/cart",
       icon: <ShoppingCartIcon />,
@@ -59,14 +74,13 @@ const BasicList = () => {
             <ListItemButton
               component={Link}
               to={item.navLinks}
-              onClick={item.onClick ? item.onClick : null} // Attach click handler if exists
               sx={{
                 "&:hover": {
                   backgroundColor: "primary.light",
                 },
               }}
             >
-              {item.id === 6 ? (
+              {item.icon ? (
                 <IconButton aria-label="cart" sx={{ color: "inherit" }}>
                   {item.icon}
                 </IconButton>
@@ -76,11 +90,6 @@ const BasicList = () => {
             </ListItemButton>
           </ListItem>
         ))}
-        {/* {isLoggedIn && firstName && ( // Conditionally render the user's first name
-          <ListItem disablePadding sx={{ width: "auto" }}>
-            <ListItemText primary={firstName} />
-          </ListItem>
-        )} */}
       </List>
     </Box>
   );

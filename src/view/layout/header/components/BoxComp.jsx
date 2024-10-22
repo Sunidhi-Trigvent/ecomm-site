@@ -4,7 +4,14 @@ import Box from "@mui/material/Box";
 import BasicList from "./ListComp";
 import { Stack, Typography } from "@mui/material";
 
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn, selectUserInfo } from "../../../../redux/userSlice"; // Adjust the path as needed
+
 export default function BoxBasic() {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const userInfo = useSelector(selectUserInfo);
+  const firstName = userInfo ? userInfo.firstName : ""; // Access firstName from userInfo
+
   return (
     <Stack
       direction={"row"}
@@ -37,7 +44,7 @@ export default function BoxBasic() {
 
       {/* header list-item component */}
       <Box>
-        <BasicList />
+        <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
       </Box>
     </Stack>
   );
