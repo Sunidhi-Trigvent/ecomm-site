@@ -58,7 +58,7 @@ export default function LoginAvtar() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>{isLoggedIn ? userInfo.firstName[0] : 'M'}</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>{isLoggedIn ? userInfo.firstName[0] : 'L'}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>

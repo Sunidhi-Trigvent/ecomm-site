@@ -10,6 +10,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import MenuIcon from "@mui/icons-material/Menu";
 import SidebarComp from "./sidebarcomp";
 import ListView from "./ListView";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function Products() {
   const { products = [], isLoading } = useProducts();
@@ -20,7 +21,9 @@ function Products() {
   const [selectedCompany, setSelectedCompany] = useState(10);
   const [category, setCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-
+  
+  const navigate = useNavigate(); // Initialize navigate hook
+  
   const uniqueCompanies = products
     ? [...new Set(products.map((product) => product?.company))]
     : [];
@@ -51,7 +54,7 @@ function Products() {
       );
     }
 
-    //search logic
+    // search logic
     if (searchQuery) {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -169,6 +172,7 @@ function Products() {
                   p={1}
                   borderRadius={2}
                   key={product.id}
+                  onClick={() => navigate(`/product/${product?._id}`)} // Navigate on product click
                 >
                   <Box
                     component={"img"}
@@ -176,6 +180,7 @@ function Products() {
                     alt={product?.name}
                     width={198}
                     height={150}
+                    style={{ cursor: "pointer" }} // Style to indicate clickable
                   />
                   <Stack
                     direction={"row"}
