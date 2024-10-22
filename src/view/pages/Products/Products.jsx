@@ -21,9 +21,9 @@ function Products() {
   const [selectedCompany, setSelectedCompany] = useState(10);
   const [category, setCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const navigate = useNavigate(); // Initialize navigate hook
-  
+
   const uniqueCompanies = products
     ? [...new Set(products.map((product) => product?.company))]
     : [];
@@ -138,7 +138,7 @@ function Products() {
               </Grid>
               <Grid item size={6}>
                 <Typography width={200} sx={{ float: "right" }}>
-                  Total Products
+                  {filteredProducts.length} Total Products
                 </Typography>
               </Grid>
               <Grid item size={4}>
