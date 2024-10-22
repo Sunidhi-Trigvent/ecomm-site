@@ -19,14 +19,14 @@ const Cart = () => {
         <Button variant="contained" sx={{
             bgcolor: "#EE82EE",
             color: "white", 
-            ml:14
+            ml:40
           }}>Continue Shopping</Button>
         <Button
           variant="contained"
           sx={{
             bgcolor: "#FF7043",
             color: "white", 
-            mr:14
+            mr:40
           }}
         >
           Clear Cart
@@ -36,8 +36,14 @@ const Cart = () => {
       <Box 
       sx={{ 
         bgcolor: '#f5f5f5', // Light grey background color
-        padding: 2, // Optional: Add some padding
-        borderRadius: 1 // Optional: Rounded corners
+        padding: 2, // Add some padding
+        borderRadius: 1, // Rounded corners
+        width: '250px', // Reduced width
+        position: 'relative', // Necessary for absolute positioning
+        right: 0, // Align to the right
+        marginLeft: 'auto', // Pushes the box to the right
+        mt:4,
+        mr:24
       }}
     >
       <Typography variant="body1">SubTotal:</Typography>

@@ -19,7 +19,7 @@ const rows = [
 export default function CartTable() {
   return (
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="30vh">
-     <TableContainer component={Paper} sx={{ width: '80%'}}> {/* Adjust width for better centering */}
+     <TableContainer component={Paper} sx={{ width: '50%'}}> {/* Adjust width for better centering */}
       <Table sx={{ minWidth: 450}} aria-label="simple table">
         <TableHead>
           <TableRow>
