@@ -6,6 +6,7 @@ import { Stack, Typography } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUserInfo } from "../../../../redux/userSlice"; // Adjust the path as needed
+import LoginAvtar from "./LoginAvatar";
 
 export default function BoxBasic() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -45,6 +46,18 @@ export default function BoxBasic() {
       {/* header list-item component */}
       <Box>
         <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
+      </Box>
+
+      {/* login box */}
+      <Box component="section"
+        width={90}
+        height={35}
+        borderRadius={"25%"}
+        sx={{ border: "2px black solid" }}
+        direction={"row"}
+        alignItems={"center"}
+        ml={2}>
+      <LoginAvtar/>
       </Box>
     </Stack>
   );
