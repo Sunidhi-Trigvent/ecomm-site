@@ -31,29 +31,9 @@ const BasicList = ({ isLoggedIn, firstName }) => {
       name: "CONTACT",
       navLinks: "/contact",
     },
-    // Conditionally render the user's first name here after 'CONTACT' and before 'LOGIN'
-    ...(isLoggedIn && firstName
-      ? [
-          {
-            id: 5,
-            name: firstName,
-            navLinks: "#", // or keep as "#" since it's just text
-          },
-        ]
-      : []),
+  
     {
-      id: 6,
-      name: isLoggedIn ? (
-        <span>
-          LOGIN <AccountCircleIcon sx={{ fontSize: 20, marginLeft: 0.5 }} />
-        </span>
-      ) : (
-        "LOGIN"
-      ), // Show "LOGIN" text or with icon
-      navLinks: "/login",
-    },
-    {
-      id: 7,
+      id: 5,
       name: "CART",
       navLinks: "/cart",
       icon: <ShoppingCartIcon />,
