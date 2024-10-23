@@ -7,7 +7,7 @@ import emptyStar from "../../../../assets/images/half_star.png";
 import { Divider } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CartAmountToggle from "../cartAmtToggle";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Container_main({ productDetail }) {
   console.log(productDetail);
@@ -18,11 +18,13 @@ export default function Container_main({ productDetail }) {
   // State to track the active color button
   const [activeColor, setActiveColor] = React.useState(null);
 
-  //state to track amount
+  // State to track amount
   const [amount, setAmount] = React.useState(1);
 
-  //funct for INC/DEC
+  // State to track the selected image
+  const [selectedImage, setSelectedImage] = React.useState(null);
 
+  // Function for increasing/decreasing the amount
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
   };
@@ -35,7 +37,9 @@ export default function Container_main({ productDetail }) {
 
   // Fallback if productDetail is not available
   const images = productDetail?.image || [];
-  const mainImage = images[3] || {};
+  
+  // Default to the 4th image or the first one if none is selected
+  const mainImage = selectedImage || images[0] || {};
 
   const renderStars = (rating) => {
     const stars = [];
@@ -52,16 +56,12 @@ export default function Container_main({ productDetail }) {
     return stars;
   };
 
-  //colors-code
   // Function to convert hex color to RGBA with reduced opacity
   const getDullColor = (color) => {
-    // Extract the hex color code
     const hex = color.replace("#", "");
-    // Convert hex to RGB
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-    // Return RGBA color with reduced opacity (0.5 for dull shade)
     return `rgba(${r}, ${g}, ${b}, 0.5)`;
   };
 
@@ -84,7 +84,8 @@ export default function Container_main({ productDetail }) {
                   component={"img"}
                   src={image?.url}
                   alt={image?.name}
-                  sx={{ width: "10vw" }}
+                  sx={{ width: "10vw", cursor: "pointer" }} // Added cursor pointer for clickable effect
+                  onClick={() => setSelectedImage(image)} // Update the selected image when clicked
                 />
               </Grid>
             ))}
@@ -93,8 +94,8 @@ export default function Container_main({ productDetail }) {
           <Grid item xs={6} alignContent={"center"}>
             <Box
               component={"img"}
-              src={mainImage.url} // Access the URL of the image at index 3
-              alt={mainImage.name} // Access the name of the image at index 3
+              src={mainImage.url} // Display the currently selected image or fallback
+              alt={mainImage.name}
               style={{
                 width: "20vw",
                 objectFit: "cover",
@@ -135,29 +136,25 @@ export default function Container_main({ productDetail }) {
               onClick={() => setActiveColor(color)} // Set the clicked color as active
               sx={{
                 backgroundColor:
-                  activeColor === color ? color : getDullColor(color), // Active button background color
-                color: activeColor === color ? "#fff" : color, // Change text color based on active state
-                border:
-                  activeColor === color
-                    ? `2px solid ${color}`
-                    : `2px solid ${color}`, // Border color based on active state
-                borderRadius: "50%", // Make button circular
-                width: "15px", // Set width for circular button
-                height: "15px", // Set height for circular button
+                  activeColor === color ? color : getDullColor(color),
+                color: activeColor === color ? "#fff" : color,
+                border: `2px solid ${color}`,
+                borderRadius: "50%",
+                width: "15px",
+                height: "15px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                position: "relative", // For positioning check icon
                 "&:hover": {
-                  backgroundColor: activeColor === color ? color : "#f0f0f0", // Hover effect
+                  backgroundColor: activeColor === color ? color : "#f0f0f0",
                 },
               }}
             >
-              {activeColor === color && <CheckIcon style={{ color: "#fff" }} />}{" "}
-              {/* Show check icon for active button */}
+              {activeColor === color && <CheckIcon style={{ color: "#fff" }} />}
             </Box>
           ))}
         </Stack>
+
         <Box sx={{ mt: 2 }}>
           {/* cartamount-Toggle */}
           <CartAmountToggle
