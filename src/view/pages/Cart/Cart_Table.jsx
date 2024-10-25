@@ -45,16 +45,18 @@ export default function CartTable() {
           <TableBody>
             {rows?.map((row) => (
               <TableRow
-                key={row?.productId}
+                key={row?.productId?._id} // Ensure to access productId's id
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row?.productName} {/* Use the product name from your data */}
+                  {row?.productId?.name}{" "}
+                  {/* Use the product name from populated data */}
                 </TableCell>
-                <TableCell align="right">{row?.productPrice}</TableCell>
+                <TableCell align="right">{row?.productId?.price}</TableCell>{" "}
+                {/* Ensure to access price from productId */}
                 <TableCell align="right">{row?.productQuantity}</TableCell>
                 <TableCell align="right">
-                  {row?.productPrice * row?.productQuantity}
+                  {row?.productId?.price * row?.productQuantity}
                 </TableCell>
                 <TableCell align="right">
                   <DeleteIcon
