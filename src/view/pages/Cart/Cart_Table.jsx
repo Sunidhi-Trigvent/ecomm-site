@@ -8,14 +8,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-function createData() {
-  return {};
-}
-
-const rows = [];
+import useCart from "../../../hooks/useCart"; // Import useCart to fetch cart data
 
 export default function CartTable() {
+  const { getFromCart, isUserLoading, isUserError } = useCart();
+
+  if (isUserLoading) {
+    return <p>Loading cart data...</p>;
+  }
+
+  if (isUserError) {
+    return <p>Error loading cart data.</p>;
+  }
+
+  const rows = getFromCart?.cartItems || []; // Use cart data
+  console.log(rows);
+
   return (
     <Box
       display="flex"
@@ -24,8 +32,6 @@ export default function CartTable() {
       minHeight="30vh"
     >
       <TableContainer component={Paper} sx={{ width: "50%" }}>
-        {" "}
-        {/* Adjust width for better centering */}
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -37,19 +43,24 @@ export default function CartTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows?.map((row) => (
               <TableRow
-                key={row.name}
+                key={row?.productId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row?.productName} {/* Use the product name from your data */}
                 </TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="right">{row?.productPrice}</TableCell>
+                <TableCell align="right">{row?.productQuantity}</TableCell>
                 <TableCell align="right">
-                  <DeleteIcon />
+                  {row?.productPrice * row?.productQuantity}
+                </TableCell>
+                <TableCell align="right">
+                  <DeleteIcon
+                    // onClick={() => handleRemoveFromCart(row.productId)}
+                    sx={{ cursor: "pointer", color: "red" }}
+                  />
                 </TableCell>
               </TableRow>
             ))}

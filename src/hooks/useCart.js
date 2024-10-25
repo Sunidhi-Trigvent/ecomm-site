@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import useAuth from "./useAuth";
 
 const useCart = () => {
   const { request } = useAuth();
 
+  // Post data to cart
   const {
     mutateAsync: addToCart,
     isLoading,
@@ -15,10 +16,20 @@ const useCart = () => {
     return response.data;
   });
 
+  // Get data from cart
+  const {
+    data: getFromCart,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useQuery("/cart", async () => {
+    return (await request.get("/cart")).data;
+  });
+
   return {
     addToCart,
     isLoading,
     isError,
+    getFromCart, // Return cart data here
   };
 };
 

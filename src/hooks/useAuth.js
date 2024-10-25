@@ -5,6 +5,9 @@ const useAuth = () => {
   console.log(baseUrl);
   const request = axios.create({
     baseURL: baseUrl,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   });
   return { request };
 };

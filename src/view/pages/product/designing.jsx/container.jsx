@@ -6,15 +6,14 @@ import { Divider } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CartAmountToggle from "../cartAmtToggle";
 import { useNavigate } from "react-router-dom";
-import useCart from "../../../../hooks/useCart"; // import your useCart hook
+import useCart from "../../../../hooks/useCart"; // Import your useCart hook
 import { useSelector } from "react-redux"; // For getting the user ID from Redux
 import fullStar from "../../../../assets/images/full_star.png";
 import emptyStar from "../../../../assets/images/half_star.png";
 
 export default function Container_main({ productDetail }) {
   const navigate = useNavigate();
-
-  const { addToCart, isLoading, isError } = useCart();
+  const { addToCart, isLoading, isError } = useCart(); // Get cart functions from the hook
   const userId = useSelector((state) => state.user.userInfo?._id); // Get the logged-in user's ID from Redux
 
   const [activeColor, setActiveColor] = React.useState(null);
@@ -70,11 +69,15 @@ export default function Container_main({ productDetail }) {
         productColor: activeColor || productDetail?.colors?.[0], // Selected or default color
       };
 
+      // Add to cart using useCart
       await addToCart(cartData); // Call useCart to post the data to the API
       alert("Product added to cart!");
-      navigate("/cart"); // Navigate to the cart page after adding
+
+      // Navigate to the cart page after adding
+      navigate("/cart");
     } catch (error) {
       console.error("Failed to add product to cart:", error);
+      alert("Error adding product to cart. Please try again.");
     }
   };
 
@@ -116,7 +119,7 @@ export default function Container_main({ productDetail }) {
 
         <Typography>
           {renderStars(productDetail?.stars)} | (
-          {productDetail?.reviews || "N/A"}:customer reviews)
+          {productDetail?.reviews || "N/A"}: customer reviews)
         </Typography>
         <Typography>MRP: {productDetail?.price || "N/A"}</Typography>
         <Typography>Deal of the day: 60000</Typography>
