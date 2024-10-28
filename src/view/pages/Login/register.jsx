@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useUser from '../../../hooks/useUser';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useUser from "../../../hooks/useUser";
 import {
   Container,
   Box,
-  TextField,
   Typography,
   Button,
   CircularProgress,
   Alert,
-} from '@mui/material';
+} from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import MuiTextField from "../../../components/TextFieldMui";
 
 const Register = () => {
   const navigate = useNavigate();
   const { userRegister, isLoading, isError } = useUser();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    setError('');
-  
+  const { handleSubmit, control } = useForm();
+
+  const handleRegister = async (data) => {
+    setError("");
+    const { firstName, lastName, email, password } = data;
+
     try {
       const userData = await userRegister({
         firstName,
@@ -31,14 +34,11 @@ const Register = () => {
         email,
         password,
       });
-      console.log('Registration successful:', userData);
-      
-     
-      
-      navigate('/login'); // Redirect to login page after successful registration
+      console.log("Registration successful:", userData);
+      navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
-      console.error('Registration error:', error);
-      setError('Registration failed. Please try again.');
+      console.error("Registration error:", error);
+      setError("Registration failed. Please try again.");
     }
   };
 
@@ -54,42 +54,50 @@ const Register = () => {
         <Typography variant="h4" component="h2" gutterBottom>
           Create an Account
         </Typography>
-        <Box component="form" onSubmit={handleRegister} sx={{ mt: 2, width: '100%' }}>
-          <TextField
+        <Box
+          component="form"
+          onSubmit={handleSubmit(handleRegister)}
+          sx={{ mt: 2, width: "100%" }}
+        >
+          <MuiTextField
+            name="firstName"
             label="First Name"
             type="text"
+            control={control}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            fullWidth
             required
-            margin="normal"
+            fullWidth
           />
-          <TextField
+          <MuiTextField
+            name="lastName"
             label="Last Name"
             type="text"
+            control={control}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            fullWidth
             required
-            margin="normal"
+            fullWidth
           />
-          <TextField
+          <MuiTextField
+            name="email"
             label="Email"
             type="email"
+            control={control}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            fullWidth
             required
-            margin="normal"
+            fullWidth
           />
-          <TextField
+          <MuiTextField
+            name="password"
             label="Password"
             type="password"
+            control={control}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            fullWidth
             required
-            margin="normal"
+            fullWidth
           />
           <Box sx={{ mt: 2 }}>
             <Button
@@ -99,7 +107,11 @@ const Register = () => {
               fullWidth
               disabled={isLoading}
             >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Register'}
+              {isLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Register"
+              )}
             </Button>
           </Box>
           {isError && (
