@@ -9,23 +9,22 @@ import {
   Button,
   CircularProgress,
   Container,
-  Grid,
+  Grid2 as Grid,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import MuiTextField from "../../../components/TextFieldMui";
+import FormContainer from "../../../components/FormContainer";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userLogin, isLoading, isError } = useUser();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   // Function to handle form submission
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    setError("");
+  const handleLogin = async (values) => {
+    const { email, password } = values;
 
     try {
       const response = await userLogin({ email, password });
@@ -40,7 +39,6 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.error("Login error:", error);
-      setError("Invalid email or password. Please try again.");
     }
   };
 
@@ -56,30 +54,22 @@ const Login = () => {
         <Typography variant="h4" component="h2" gutterBottom>
           Login
         </Typography>
-        <Box
+        {/* <Box
           component="form"
           onSubmit={handleLogin}
           sx={{ mt: 2, width: "100%" }}
-        >
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-          />
-          <Box sx={{ mt: 2 }}>
+        > */}
+        <FormContainer onSuccess={handleLogin}>
+          <Stack spacing={2}>
+            <MuiTextField name="email" label="Email" fullWidth />
+            <MuiTextField
+              name="password"
+              label="Password"
+              type="password"
+              required
+              fullWidth
+            />
+
             <Button
               type="submit"
               variant="contained"
@@ -93,13 +83,8 @@ const Login = () => {
                 "Login"
               )}
             </Button>
-          </Box>
-          {isError && (
-            <Box sx={{ mt: 2 }}>
-              <Alert severity="error">{error}</Alert>
-            </Box>
-          )}
-        </Box>
+          </Stack>
+        </FormContainer>
         <Grid container justifyContent="center" sx={{ mt: 3 }}>
           <Typography variant="body2">
             If not registered?{" "}

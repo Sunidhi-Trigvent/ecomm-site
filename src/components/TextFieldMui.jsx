@@ -14,30 +14,21 @@ function MuiTextField({
   onMouseDownPassword,
   sx,
   required,
-  control, // Ensure control is passed here
   ...rest
 }) {
   const isPassword = type === "password";
   const [showPassword, setShowPassword] = useState(false);
-
-  // Early return if control or name is missing
-  if (!control || !name) {
-    console.error(
-      `MuiTextField component requires 'control' and 'name' props.`
-    );
-    return null; // Prevent rendering without control or name
-  }
-
   return (
     <Controller
       name={name}
-      control={control} // Pass control here
       render={({
         field: { onChange, value, onBlur },
         fieldState: { invalid, error },
       }) => (
         <TextField
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...rest}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           value={
             type === "datetime-local"
               ? dayjs(value).format("YYYY-MM-DDTHH:mm")
@@ -50,7 +41,10 @@ function MuiTextField({
           id={id}
           sx={{
             ...sx,
-            [`& fieldset`]: { borderRadius: "12px" },
+            [`& fieldset`]: {
+              borderRadius: "12px",
+              p: 1,
+            },
           }}
           label={label}
           type={isPassword && showPassword ? "text" : type}
@@ -69,7 +63,14 @@ function MuiTextField({
             ),
           }}
           error={invalid}
-          helperText={error ? error.message : rest?.helperText}
+          helperText={
+            // eslint-disable-next-line no-nested-ternary
+            error
+              ? typeof parseError === "function"
+                ? error
+                : error?.message
+              : rest?.helperText
+          }
         />
       )}
     />
