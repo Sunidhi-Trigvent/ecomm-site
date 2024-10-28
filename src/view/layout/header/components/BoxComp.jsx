@@ -1,16 +1,58 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import BasicList from "./ListComp";
-import { Stack, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectIsLoggedIn, selectUserInfo } from "../../../../redux/userSlice"; // Adjust the path as needed
-import LoginAvtar from "./LoginAvatar";
+import {
+  Stack,
+  Typography,
+  Menu,
+  MenuItem,
+  Divider,
+  ListItemIcon,
+} from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectIsLoggedIn,
+  selectUserInfo,
+  logout,
+} from "../../../../redux/userSlice"; // Adjust the path as needed
+import LoginAvatar from "./LoginAvatar";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import { useNavigate } from "react-router-dom";
 
 export default function BoxBasic() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userInfo = useSelector(selectUserInfo);
-  const firstName = userInfo ? userInfo.firstName : ""; // Access firstName from userInfo
+  const firstName = userInfo ? userInfo.firstName : "";
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleBoxClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLoginClick = () => {
+    handleClose();
+    navigate("/login");
+  };
+
+  const handleRegisterClick = () => {
+    handleClose();
+    navigate("/register");
+  };
+
+  const handleLogoutClick = () => {
+    dispatch(logout());
+    handleClose();
+  };
 
   return (
     <Stack
@@ -18,8 +60,8 @@ export default function BoxBasic() {
       justifyContent="space-between"
       alignItems="center"
       bgcolor="lightgray"
-      px={2} // Add padding for spacing
-      py={1} // Add padding for spacing
+      px={2}
+      py={1}
     >
       {/* Logo section */}
       <Stack
@@ -54,18 +96,63 @@ export default function BoxBasic() {
         height={45}
         borderRadius="25%"
         sx={{
-          // border: "2px black solid",
           display: "flex",
           alignItems: "center",
-          bgcolor: "#F4A9F4", // Original background color
+          bgcolor: "#F4A9F4",
           "&:hover": {
-            bgcolor: "#EE82EE", // Lighter violet color on hover
+            bgcolor: "#EE82EE",
           },
+          cursor: "pointer",
         }}
+        onClick={handleBoxClick} // Make box clickable
       >
-        <LoginAvtar  />
+        <Box sx={{ ml: 1 }}>
+          <LoginAvatar />
+        </Box>
+
         <SettingsIcon sx={{ ml: 1 }} />
       </Box>
+
+      {/* Menu for settings and logout */}
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+      >
+        {isLoggedIn && (
+          <>
+            <Typography sx={{ p: 2, fontWeight: "bold", textAlign: "center" }}>
+              Hello, {firstName}
+            </Typography>
+            <Divider />
+            <MenuItem onClick={handleLogoutClick}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </>
+        )}
+
+        {!isLoggedIn && (
+          <>
+            <MenuItem onClick={handleLoginClick}>
+              <ListItemIcon>
+                <PersonAdd fontSize="small" />
+              </ListItemIcon>
+              Login
+            </MenuItem>
+            <MenuItem onClick={handleRegisterClick}>
+              <ListItemIcon>
+                <PersonAdd fontSize="small" />
+              </ListItemIcon>
+              Register
+            </MenuItem>
+          </>
+        )}
+      </Menu>
     </Stack>
   );
 }
