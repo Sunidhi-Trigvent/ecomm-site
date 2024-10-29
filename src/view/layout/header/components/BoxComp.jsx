@@ -8,18 +8,28 @@ import {
   MenuItem,
   Divider,
   ListItemIcon,
+  Button,
+  CircularProgress,
+  Grid,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectIsLoggedIn,
   selectUserInfo,
   logout,
+  setUser,
 } from "../../../../redux/userSlice"; // Adjust the path as needed
 import LoginAvatar from "./LoginAvatar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
-import { useNavigate } from "react-router-dom";
+import FormContainer from "../../../../components/FormContainer"; // Ensure the correct path
+import MuiTextField from "../../../../components/TextFieldMui"; // Assuming you have this TextField component
+import useUser from "../../../../hooks/useUser"; // Assuming this is the hook for user login
+import { Link, useNavigate } from "react-router-dom";
+import { useModal } from "../../../../components/Modal";
+import Login from "../../../pages/Login/login";
+import * as Yup from "yup";
 
 export default function BoxBasic() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -27,9 +37,12 @@ export default function BoxBasic() {
   const firstName = userInfo ? userInfo.firstName : "";
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { userLogin, isLoading } = useUser(); // Assuming this handles the login
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [showLoginForm, setShowLoginForm] = React.useState(false);
   const open = Boolean(anchorEl);
+  const { showModal, closeModal } = useModal();
 
   const handleBoxClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,11 +50,23 @@ export default function BoxBasic() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setShowLoginForm(false); // Close login form when menu is closed
   };
 
+  const loginValidationSchema = Yup.object({
+    email: Yup.string().required(),
+    password: Yup.string().required(),
+  });
+
   const handleLoginClick = () => {
-    handleClose();
-    navigate("/login");
+    showModal({
+      title: "Login",
+      content: <Login />,
+      onSubmit: handleLogin,
+      confirmText: "Sign-In",
+      cancelText: "Cancel",
+      validation: loginValidationSchema,
+    });
   };
 
   const handleRegisterClick = () => {
@@ -52,6 +77,27 @@ export default function BoxBasic() {
   const handleLogoutClick = () => {
     dispatch(logout());
     handleClose();
+  };
+
+  // Function to handle form submission
+  const handleLogin = async (values) => {
+    const { email, password } = values;
+
+    try {
+      const response = await userLogin({ email, password });
+      const { token, data } = response;
+
+      // Store token in local storage
+      localStorage.setItem("token", token);
+      // Dispatch user data to Redux store
+      dispatch(setUser(data));
+
+      // Redirect user to the dashboard or home page on successful login
+      closeModal();
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -104,7 +150,7 @@ export default function BoxBasic() {
           },
           cursor: "pointer",
         }}
-        onClick={handleBoxClick} // Make box clickable
+        onClick={handleBoxClick}
       >
         <Box sx={{ ml: 1 }}>
           <LoginAvatar />
@@ -136,7 +182,7 @@ export default function BoxBasic() {
           </>
         )}
 
-        {!isLoggedIn && (
+        {!isLoggedIn && !showLoginForm && (
           <>
             <MenuItem onClick={handleLoginClick}>
               <ListItemIcon>

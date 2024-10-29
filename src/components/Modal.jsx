@@ -10,8 +10,9 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import AnimateButton from "ui-component/extended/AnimateButton";
+import AnimateButton from "../components/AnimateButton";
 import FormContainer from "./FormContainer";
+
 
 // Context to provide the modal control functions
 const ModalContext = createContext();

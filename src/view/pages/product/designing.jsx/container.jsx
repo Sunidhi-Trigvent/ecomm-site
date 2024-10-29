@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
-import { Button, Stack, Typography } from "@mui/material";
+import { Alert, Button, Snackbar, Stack, Typography } from "@mui/material";
 import { Divider } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CartAmountToggle from "../cartAmtToggle";
@@ -10,6 +10,7 @@ import useCart from "../../../../hooks/useCart"; // Import your useCart hook
 import { useSelector } from "react-redux"; // For getting the user ID from Redux
 import fullStar from "../../../../assets/images/full_star.png";
 import emptyStar from "../../../../assets/images/half_star.png";
+import { useSnackbar } from "../../../../components/Snackbar";
 
 export default function Container_main({ productDetail }) {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function Container_main({ productDetail }) {
   const [activeColor, setActiveColor] = React.useState(null);
   const [amount, setAmount] = React.useState(1);
   const [selectedImage, setSelectedImage] = React.useState(null);
+  const { showSnackbar } = useSnackbar();
 
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
@@ -58,8 +60,7 @@ export default function Container_main({ productDetail }) {
 
   const handleAddToCart = async () => {
     if (!userId) {
-      alert("Please log in to add items to the cart.");
-      return;
+      showSnackbar("Login First", "error");
     }
     try {
       const cartData = {
@@ -71,13 +72,14 @@ export default function Container_main({ productDetail }) {
 
       // Add to cart using useCart
       await addToCart(cartData); // Call useCart to post the data to the API
-      alert("Product added to cart!");
+      // alert("Product added to cart!");
+      showSnackbar("Product added to cart!", "success");
 
       // Navigate to the cart page after adding
       navigate("/cart");
     } catch (error) {
       console.error("Failed to add product to cart:", error);
-      alert("Error adding product to cart. Please try again.");
+      // alert("Error adding product to cart. Please try again.");
     }
   };
 
@@ -111,7 +113,6 @@ export default function Container_main({ productDetail }) {
           </Grid>
         </Grid>
       </Grid>
-
       <Grid item xs={12} sm={6}>
         <Typography>
           {productDetail?.name || "Product Name Unavailable"}
