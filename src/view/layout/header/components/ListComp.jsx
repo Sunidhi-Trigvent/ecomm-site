@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge"; // Import Badge
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const BasicList = ({ isLoggedIn, firstName, cartItemCount = 4 }) => {
+const BasicList = ({ isLoggedIn, firstName, cartItemCount }) => {
   // Add cartItemCount prop
   const navItems = [
     {

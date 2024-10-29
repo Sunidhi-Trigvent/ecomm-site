@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useCart from "../../../hooks/useCart"; // Import useCart to fetch cart data
+import BasicList from "../../layout/header/components/ListComp"; // Adjust the path to BasicList
 
 export default function CartTable() {
   const { getFromCart, isUserLoading, isUserError } = useCart();
@@ -21,16 +22,24 @@ export default function CartTable() {
     return <p>Error loading cart data.</p>;
   }
 
-  const rows = getFromCart?.cartItems || []; // Use cart data
+  const rows = getFromCart?.cartItems || [];
   console.log(rows);
+
+  // Calculate the total item count in the cart
+  const cartItemCount = rows.reduce(
+    (total, item) => total + item.productQuantity,
+    0
+  );
 
   return (
     <Box
       display="flex"
-      justifyContent="center"
+      flexDirection="column"
       alignItems="center"
       minHeight="30vh"
     >
+      {/* <BasicList cartItemCount={cartItemCount} />{" "} */}
+      {/* Pass cartItemCount as a prop */}
       <TableContainer component={Paper} sx={{ width: "50%" }}>
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
@@ -43,26 +52,21 @@ export default function CartTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {rows.map((row) => (
               <TableRow
-                key={row?.productId?._id} // Ensure to access productId's id
+                key={row.productId._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row?.productId?.name}{" "}
-                  {/* Use the product name from populated data */}
+                  {row.productId?.name}
                 </TableCell>
-                <TableCell align="right">{row?.productId?.price}</TableCell>{" "}
-                {/* Ensure to access price from productId */}
-                <TableCell align="right">{row?.productQuantity}</TableCell>
+                <TableCell align="right">{row.productId?.price}</TableCell>
+                <TableCell align="right">{row.productQuantity}</TableCell>
                 <TableCell align="right">
-                  {row?.productId?.price * row?.productQuantity}
+                  {row.productId?.price * row.productQuantity}
                 </TableCell>
                 <TableCell align="right">
-                  <DeleteIcon
-                    // onClick={() => handleRemoveFromCart(row.productId)}
-                    sx={{ cursor: "pointer", color: "red" }}
-                  />
+                  <DeleteIcon sx={{ cursor: "pointer", color: "red" }} />
                 </TableCell>
               </TableRow>
             ))}
