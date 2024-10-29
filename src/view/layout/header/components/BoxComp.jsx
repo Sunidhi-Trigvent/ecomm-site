@@ -29,6 +29,7 @@ import useUser from "../../../../hooks/useUser"; // Assuming this is the hook fo
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "../../../../components/Modal";
 import Login from "../../../pages/Login/login";
+import Register from "../../../pages/Login/register";
 import * as Yup from "yup";
 
 export default function BoxBasic() {
@@ -37,7 +38,8 @@ export default function BoxBasic() {
   const firstName = userInfo ? userInfo.firstName : "";
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userLogin, isLoading } = useUser(); // Assuming this handles the login
+  const { userLogin } = useUser(); // Assuming this handles the login
+  const { userRegister } = useUser();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showLoginForm, setShowLoginForm] = React.useState(false);
@@ -69,9 +71,33 @@ export default function BoxBasic() {
     });
   };
 
+  const handleRegister = async (data) => {
+    const { firstName, lastName, email, password } = data;
+    try {
+      const userData = await userRegister({
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+      console.log("Registration successful:", userData);
+      navigate("/login"); // Redirect to login page after successful registration
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+  };
+
   const handleRegisterClick = () => {
-    handleClose();
-    navigate("/register");
+    // handleClose();
+    // navigate("/register");
+    showModal({
+      title: "Register",
+      content: <Register />,
+      onSubmit: handleRegister,
+      confirmText: "Register",
+      cancelText: "Cancel",
+      validation: loginValidationSchema,
+    });
   };
 
   const handleLogoutClick = () => {
