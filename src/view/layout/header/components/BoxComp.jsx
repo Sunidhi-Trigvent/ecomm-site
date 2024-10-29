@@ -55,6 +55,7 @@ export default function BoxBasic() {
     setShowLoginForm(false); // Close login form when menu is closed
   };
 
+  //LOGIN FORM VALIDATION
   const loginValidationSchema = Yup.object({
     email: Yup.string().required(),
     password: Yup.string().required(),
@@ -87,6 +88,14 @@ export default function BoxBasic() {
     }
   };
 
+  //VALIDATION FOR REGISTER FORM
+  const registerValidationSchema = Yup.object({
+    email: Yup.string().required(),
+    password: Yup.string().required(),
+    firstName: Yup.string().required(),
+    lastName: Yup.string().required(),
+  });
+
   const handleRegisterClick = () => {
     // handleClose();
     // navigate("/register");
@@ -96,7 +105,7 @@ export default function BoxBasic() {
       onSubmit: handleRegister,
       confirmText: "Register",
       cancelText: "Cancel",
-      validation: loginValidationSchema,
+      validation: registerValidationSchema,
     });
   };
 

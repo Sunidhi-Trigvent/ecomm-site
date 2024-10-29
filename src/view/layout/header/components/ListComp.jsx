@@ -7,9 +7,11 @@ import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge"; // Import Badge
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const BasicList = ({ isLoggedIn, firstName }) => {
+const BasicList = ({ isLoggedIn, firstName, cartItemCount = 4 }) => {
+  // Add cartItemCount prop
   const navItems = [
     {
       id: 1,
@@ -31,12 +33,17 @@ const BasicList = ({ isLoggedIn, firstName }) => {
       name: "CONTACT",
       navLinks: "/contact",
     },
-  
     {
       id: 5,
       name: "CART",
       navLinks: "/cart",
-      icon: <ShoppingCartIcon />,
+      icon: (
+        <Badge badgeContent={cartItemCount} color="primary">
+          {" "}
+          {/* Add Badge here */}
+          <ShoppingCartIcon />
+        </Badge>
+      ),
     },
   ];
 
