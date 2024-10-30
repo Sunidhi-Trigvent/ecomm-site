@@ -1,3 +1,4 @@
+// BoxComp.jsx
 import * as React from "react";
 import Box from "@mui/material/Box";
 import BasicList from "./ListComp";
@@ -31,6 +32,7 @@ import { useModal } from "../../../../components/Modal";
 import Login from "../../../pages/Login/login";
 import Register from "../../../pages/Login/register";
 import * as Yup from "yup";
+import { clearCart } from "../../../../redux/cartSice"; // Updated path to `cartSlice`
 
 export default function BoxBasic() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -38,7 +40,7 @@ export default function BoxBasic() {
   const firstName = userInfo ? userInfo.firstName : "";
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userLogin } = useUser(); // Assuming this handles the login
+  const { userLogin } = useUser();
   const { userRegister } = useUser();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -97,8 +99,6 @@ export default function BoxBasic() {
   });
 
   const handleRegisterClick = () => {
-    // handleClose();
-    // navigate("/register");
     showModal({
       title: "Register",
       content: <Register />,
@@ -111,6 +111,8 @@ export default function BoxBasic() {
 
   const handleLogoutClick = () => {
     dispatch(logout());
+    dispatch(clearCart()); // Clear the cart on logout
+    console.log("Logout and clear cart dispatched"); // Debugging log
     handleClose();
   };
 
