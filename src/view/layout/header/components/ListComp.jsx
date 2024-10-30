@@ -1,3 +1,4 @@
+// ListComp.jsx
 import * as React from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -7,11 +8,13 @@ import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge"; // Import Badge
+import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useSelector } from "react-redux"; // Import useSelector
 
-const BasicList = ({ isLoggedIn, firstName, cartItemCount }) => {
-  // Add cartItemCount prop
+const BasicList = ({ isLoggedIn, firstName }) => {
+  const cartItemCount = useSelector((state) => state.cart.itemCount); // Get cartItemCount from Redux
+
   const navItems = [
     {
       id: 1,
@@ -39,8 +42,6 @@ const BasicList = ({ isLoggedIn, firstName, cartItemCount }) => {
       navLinks: "/cart",
       icon: (
         <Badge badgeContent={cartItemCount} color="primary">
-          {" "}
-          {/* Add Badge here */}
           <ShoppingCartIcon />
         </Badge>
       ),
@@ -48,13 +49,7 @@ const BasicList = ({ isLoggedIn, firstName, cartItemCount }) => {
   ];
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "flex-end",
-        p: 1,
-      }}
-    >
+    <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
       <List sx={{ display: "flex", flexDirection: "row" }}>
         {navItems.map((item) => (
           <ListItem key={item.id} disablePadding sx={{ width: "auto" }}>

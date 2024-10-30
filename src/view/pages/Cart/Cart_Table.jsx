@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
+import { setCartItemCount } from "../../../redux/cartSice";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,11 +10,26 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import useCart from "../../../hooks/useCart"; // Import useCart to fetch cart data
-import BasicList from "../../layout/header/components/ListComp"; // Adjust the path to BasicList
+import useCart from "../../../hooks/useCart";
+import BasicList from "../../layout/header/components/ListComp";
 
 export default function CartTable() {
+  const dispatch = useDispatch(); // Initialize dispatch
   const { getFromCart, isUserLoading, isUserError } = useCart();
+
+  // Calculate the total item count in the cart
+  const rows = getFromCart?.cartItems || [];
+  const cartItemCount = rows.reduce(
+    (total, item) => total + item.productQuantity,
+    0
+  );
+
+  // Dispatch cartItemCount to Redux only when cart data is loaded and there's no error
+  React.useEffect(() => {
+    if (!isUserLoading && !isUserError) {
+      dispatch(setCartItemCount(cartItemCount));
+    }
+  }, [cartItemCount, isUserLoading, isUserError, dispatch]);
 
   if (isUserLoading) {
     return <p>Loading cart data...</p>;
@@ -22,15 +39,6 @@ export default function CartTable() {
     return <p>Error loading cart data.</p>;
   }
 
-  const rows = getFromCart?.cartItems || [];
-  console.log(rows);
-
-  // Calculate the total item count in the cart
-  const cartItemCount = rows.reduce(
-    (total, item) => total + item.productQuantity,
-    0
-  );
-
   return (
     <Box
       display="flex"
@@ -38,8 +46,6 @@ export default function CartTable() {
       alignItems="center"
       minHeight="30vh"
     >
-      {/* <BasicList cartItemCount={cartItemCount} />{" "} */}
-      {/* Pass cartItemCount as a prop */}
       <TableContainer component={Paper} sx={{ width: "50%" }}>
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
