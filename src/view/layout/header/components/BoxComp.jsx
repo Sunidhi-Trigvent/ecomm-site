@@ -1,4 +1,3 @@
-// BoxComp.jsx
 import * as React from "react";
 import Box from "@mui/material/Box";
 import BasicList from "./ListComp";
@@ -32,7 +31,6 @@ import { useModal } from "../../../../components/Modal";
 import Login from "../../../pages/Login/login";
 import Register from "../../../pages/Login/register";
 import * as Yup from "yup";
-import { clearCart } from "../../../../redux/cartSice"; // Updated path to `cartSlice`
 
 export default function BoxBasic() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -40,7 +38,7 @@ export default function BoxBasic() {
   const firstName = userInfo ? userInfo.firstName : "";
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userLogin } = useUser();
+  const { userLogin } = useUser(); // Assuming this handles the login
   const { userRegister } = useUser();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,7 +55,6 @@ export default function BoxBasic() {
     setShowLoginForm(false); // Close login form when menu is closed
   };
 
-  //LOGIN FORM VALIDATION
   const loginValidationSchema = Yup.object({
     email: Yup.string().required(),
     password: Yup.string().required(),
@@ -90,29 +87,21 @@ export default function BoxBasic() {
     }
   };
 
-  //VALIDATION FOR REGISTER FORM
-  const registerValidationSchema = Yup.object({
-    email: Yup.string().required(),
-    password: Yup.string().required(),
-    firstName: Yup.string().required(),
-    lastName: Yup.string().required(),
-  });
-
   const handleRegisterClick = () => {
+    // handleClose();
+    // navigate("/register");
     showModal({
       title: "Register",
       content: <Register />,
       onSubmit: handleRegister,
       confirmText: "Register",
       cancelText: "Cancel",
-      validation: registerValidationSchema,
+      validation: loginValidationSchema,
     });
   };
 
   const handleLogoutClick = () => {
     dispatch(logout());
-    dispatch(clearCart()); // Clear the cart on logout
-    console.log("Logout and clear cart dispatched"); // Debugging log
     handleClose();
   };
 

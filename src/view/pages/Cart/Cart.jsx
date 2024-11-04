@@ -1,8 +1,17 @@
 import React from "react";
 import CartTable from "./Cart_Table";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../../redux/cartSice";
 
 const Cart = () => {
+  const dispatch = useDispatch();
+
+  const handleClearCart = () => {
+    console.log("dispatch..");
+    dispatch(clearCart()); // Clear the cart when button is clicked
+  };
+
   return (
     <>
       <CartTable />
@@ -11,8 +20,6 @@ const Cart = () => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        // bgcolor="lightgray"
-
         px={2} // Add padding for spacing
         py={1} // Add padding for spacing
       >
@@ -33,6 +40,7 @@ const Cart = () => {
             color: "white",
             mr: 40,
           }}
+          onClick={handleClearCart}
         >
           Clear Cart
         </Button>
