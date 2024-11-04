@@ -15,6 +15,7 @@ import useCart from "../../../hooks/useCart";
 export default function CartTable() {
   const dispatch = useDispatch(); // Initialize dispatch
   const cartItems = useSelector((state) => state.cart.cartItems); // Get cart items from Redux
+  console.log(cartItems);
   const { getFromCart, isUserLoading, isUserError } = useCart();
 
   // Calculate the total item count in the cart
