@@ -15,6 +15,8 @@ import {
   Button,
   CircularProgress,
   Toolbar,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -110,122 +112,156 @@ const RespHeader = () => {
     }
   };
 
+  const theme = useTheme();
+  console.log(theme);
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  console.log(isMatch);
   return (
     <>
       <AppBar sx={{ background: "dark-pink", width: "100%" }}>
         <Toolbar sx={{ minHeight: 12, height: 12 }}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            // bgcolor="lightgray"
-            px={2}
-            py={1}
-            width="100%"
-          >
-            {/* Amzon logo */}
+          {isMatch ? (
+            <>
+              {/* Amazon logo */}
+              <Stack
+                direction="row"
+                alignItems="center"
+                sx={{
+                  border: "2px black solid",
+                  ml: { xs: 1, md: 2 },
+                  mr: { xs: 1, md: 2 },
+                  "& > *": {
+                    padding: { xs: "4px", md: "8px" },
+                  },
+                }}
+              >
+                <Typography
+                  bgcolor="violet"
+                  border="2px solid white"
+                  fontWeight={900}
+                  color="white"
+                  textTransform="uppercase"
+                >
+                  Amazon
+                </Typography>
+                <Typography fontWeight={900} textTransform="uppercase">
+                  store
+                </Typography>
+              </Stack>
+
+              {/* Drawer Comp starts */}
+              <DrawerComp />
+              {/* Drawer Comp ends */}
+            </>
+          ) : (
             <Stack
               direction="row"
+              justifyContent="space-between"
               alignItems="center"
-              sx={{
-                border: "2px black solid",
-                ml: { xs: 1, md: 2 },
-                mr: { xs: 1, md: 2 },
-                "& > *": {
-                  padding: { xs: "4px", md: "8px" },
-                },
-              }}
+              px={2}
+              py={1}
+              width="100%"
             >
-              <Typography
-                bgcolor="violet"
-                border="2px solid white"
-                fontWeight={900}
-                color="white"
-                textTransform="uppercase"
+              {/* Amazon logo */}
+              <Stack
+                direction="row"
+                alignItems="center"
+                sx={{
+                  border: "2px black solid",
+                  ml: { xs: 1, md: 2 },
+                  mr: { xs: 1, md: 2 },
+                  "& > *": {
+                    padding: { xs: "4px", md: "8px" },
+                  },
+                }}
               >
-                Amazon
-              </Typography>
-              <Typography fontWeight={900} textTransform="uppercase">
-                store
-              </Typography>
-            </Stack>
+                <Typography
+                  bgcolor="violet"
+                  border="2px solid white"
+                  fontWeight={900}
+                  color="white"
+                  textTransform="uppercase"
+                >
+                  Amazon
+                </Typography>
+                <Typography fontWeight={900} textTransform="uppercase">
+                  store
+                </Typography>
+              </Stack>
 
-            {/* ListComp */}
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
-            </Box>
-
-            {/* Login Avatar */}
-            <Box
-              component="section"
-              width={90}
-              height={45}
-              borderRadius="25%"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                bgcolor: "#F4A9F4",
-                "&:hover": { bgcolor: "#EE82EE" },
-                cursor: "pointer",
-              }}
-              onClick={handleBoxClick}
-            >
-              <Box sx={{ ml: 1 }}>
-                <LoginAvatar />
+              {/* ListComp */}
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
               </Box>
-              <SettingsIcon sx={{ ml: 1 }} />
-            </Box>
 
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-            >
-              {isLoggedIn ? (
-                <>
-                  <Typography
-                    sx={{ p: 2, fontWeight: "bold", textAlign: "center" }}
-                  >
-                    Hello, {firstName}
-                  </Typography>
-                  <Divider />
-                  <MenuItem onClick={handleLogoutClick}>
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </>
-              ) : (
-                <>
-                  <MenuItem onClick={handleLoginClick}>
-                    <ListItemIcon>
-                      <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Login
-                  </MenuItem>
-                  <MenuItem onClick={handleRegisterClick}>
-                    <ListItemIcon>
-                      <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Register
-                  </MenuItem>
-                </>
-              )}
-            </Menu>
-          </Stack>
+              {/* Login Avatar */}
+              <Box
+                component="section"
+                width={90}
+                height={45}
+                borderRadius="25%"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  bgcolor: "#F4A9F4",
+                  "&:hover": { bgcolor: "#EE82EE" },
+                  cursor: "pointer",
+                }}
+                onClick={handleBoxClick}
+              >
+                <Box sx={{ ml: 1 }}>
+                  <LoginAvatar />
+                </Box>
+                <SettingsIcon sx={{ ml: 1 }} />
+              </Box>
 
-          {/* Drawer Comp starts*/}
-          <DrawerComp />
-          {/* Drawer Comp ends*/}
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+              >
+                {isLoggedIn ? (
+                  <>
+                    <Typography
+                      sx={{ p: 2, fontWeight: "bold", textAlign: "center" }}
+                    >
+                      Hello, {firstName}
+                    </Typography>
+                    <Divider />
+                    <MenuItem onClick={handleLogoutClick}>
+                      <ListItemIcon>
+                        <Logout fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem onClick={handleLoginClick}>
+                      <ListItemIcon>
+                        <PersonAdd fontSize="small" />
+                      </ListItemIcon>
+                      Login
+                    </MenuItem>
+                    <MenuItem onClick={handleRegisterClick}>
+                      <ListItemIcon>
+                        <PersonAdd fontSize="small" />
+                      </ListItemIcon>
+                      Register
+                    </MenuItem>
+                  </>
+                )}
+              </Menu>
+            </Stack>
+          )}
         </Toolbar>
       </AppBar>
     </>

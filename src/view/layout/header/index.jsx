@@ -7,7 +7,7 @@ import RespHeader from "./components/RespHeader";
 function Header() {
   return (
     <>
-      <BoxBasic />
+      {/* <BoxBasic /> */}
       <RespHeader />
     </>
   );
