@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
-import { IconButton, List, ListItem, Box, Divider } from "@mui/material";
+import {
+  IconButton,
+  List,
+  ListItem,
+  Box,
+  Divider,
+  ListItemIcon,
+  MenuItem,
+  Menu,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import BasicList from "./ListComp"; // Import BasicList
-import LoginAvatar from "./LoginAvatar"; // Import LoginAvatar
 import BasicListResp from "./ListCompResp";
+import LoginAvatar from "./LoginAvatar";
+import SettingsIcon from "@mui/icons-material/Settings"; // Import SettingsIcon
+import { PersonAdd, Logout } from "@mui/icons-material"; // Import Logout
+// Ensure to import other icons you use as well
 
 const DrawerComp = ({
   isLoggedIn,
@@ -14,7 +26,16 @@ const DrawerComp = ({
   onRegisterClick,
 }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  // console.log("DrawerComp re-rendered");
+  const [anchorEl, setAnchorEl] = useState(null); // State for the anchor element
+  const openMenu = Boolean(anchorEl); // Determine if the menu is open
+
+  const handleBoxClick = (event) => {
+    setAnchorEl(event.currentTarget); // Set the anchor element for the menu
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu
+  };
 
   return (
     <>
@@ -32,40 +53,63 @@ const DrawerComp = ({
           <ListItem>
             <Box
               component="section"
+              width={90}
+              height={45}
+              borderRadius="25%"
               sx={{
                 display: "flex",
-                flexDirection: "column", // Make items in column
-                alignItems: "flex-start", // Align items to the start
+                alignItems: "center",
                 bgcolor: "#F4A9F4",
                 "&:hover": { bgcolor: "#EE82EE" },
                 cursor: "pointer",
-                padding: 1,
-                borderRadius: 2,
-                width: "100%",
               }}
-              onClick={() => setOpenDrawer(false)}
+              onClick={handleBoxClick}
             >
-              <LoginAvatar />
-              <Box sx={{ textAlign: "left", marginTop: 1 }}>
-                {isLoggedIn ? (
-                  <>
-                    <Box sx={{ fontWeight: "bold" }}>Hello, {firstName}</Box>
-                    <Box onClick={onLogoutClick} sx={{ cursor: "pointer" }}>
-                      Logout
-                    </Box>
-                  </>
-                ) : (
-                  <>
-                    <Box onClick={onLoginClick} sx={{ cursor: "pointer" }}>
-                      Login
-                    </Box>
-                    <Box onClick={onRegisterClick} sx={{ cursor: "pointer" }}>
-                      Register
-                    </Box>
-                  </>
-                )}
+              <Box sx={{ ml: 1 }}>
+                <LoginAvatar />
               </Box>
+              <SettingsIcon sx={{ ml: 1 }} />
             </Box>
+
+            <Menu
+              anchorEl={anchorEl}
+              open={openMenu}
+              onClose={handleClose}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+            >
+              {isLoggedIn ? (
+                <>
+                  <Typography
+                    sx={{ p: 2, fontWeight: "bold", textAlign: "center" }}
+                  >
+                    Hello, {firstName}
+                  </Typography>
+                  <Divider />
+                  <MenuItem onClick={onLogoutClick}>
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={onLoginClick}>
+                    <ListItemIcon>
+                      <PersonAdd fontSize="small" />
+                    </ListItemIcon>
+                    Login
+                  </MenuItem>
+                  <MenuItem onClick={onRegisterClick}>
+                    <ListItemIcon>
+                      <PersonAdd fontSize="small" />
+                    </ListItemIcon>
+                    Register
+                  </MenuItem>
+                </>
+              )}
+            </Menu>
           </ListItem>
         </List>
       </Drawer>
