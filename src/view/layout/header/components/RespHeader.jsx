@@ -124,7 +124,7 @@ const RespHeader = () => {
           width: "100%",
         }}
       >
-        <Toolbar sx={{ minHeight: 14, height: 14, minHeight: { xs: "40px" } }}>
+        <Toolbar sx={{ minHeight: 70, height: 70 }}>
           {isMatch ? (
             <>
               {/* Amazon logo */}
