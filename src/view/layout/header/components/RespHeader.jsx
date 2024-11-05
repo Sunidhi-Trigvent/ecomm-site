@@ -112,8 +112,8 @@ const RespHeader = () => {
 
   return (
     <>
-      <AppBar>
-        <Toolbar>
+      <AppBar sx={{ background: "dark-pink", width: "100%" }}>
+        <Toolbar sx={{ minHeight: 12, height: 12 }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -121,6 +121,7 @@ const RespHeader = () => {
             // bgcolor="lightgray"
             px={2}
             py={1}
+            width="100%"
           >
             {/* Amzon logo */}
             <Stack
@@ -151,7 +152,11 @@ const RespHeader = () => {
 
             {/* ListComp */}
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
               <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
             </Box>

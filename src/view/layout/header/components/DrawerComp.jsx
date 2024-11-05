@@ -6,8 +6,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -24,7 +22,10 @@ const DrawerComp = () => {
       </Drawer>
 
       {/* Hamburger icon */}
-      <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
+      <IconButton
+        sx={{ marginLeft: "auto" }}
+        onClick={() => setOpenDrawer(!openDrawer)}
+      >
         <MenuIcon />
       </IconButton>
     </>

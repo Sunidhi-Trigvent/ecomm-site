@@ -41,7 +41,7 @@ const BasicList = ({ isLoggedIn, firstName }) => {
       name: "CART",
       navLinks: "/cart",
       icon: (
-        <Badge badgeContent={cartItemCount} color="primary">
+        <Badge badgeContent={cartItemCount} color="info">
           <ShoppingCartIcon />
         </Badge>
       ),
