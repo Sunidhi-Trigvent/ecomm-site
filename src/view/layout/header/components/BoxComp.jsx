@@ -115,7 +115,8 @@ export default function BoxBasic() {
       px={2}
       py={1}
     >
-      <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}>
+      {/* reponsiveness-mobile */}
+      <Box sx={{ display: { xs: "flex", lg: "none" }, alignItems: "center" }}>
         <MenuIcon />
       </Box>
 
