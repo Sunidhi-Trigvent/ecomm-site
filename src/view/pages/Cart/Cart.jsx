@@ -22,6 +22,7 @@ const Cart = () => {
         alignItems="center"
         px={2} // Add padding for spacing
         py={1} // Add padding for spacing
+        mt={21}
       >
         <Button
           variant="contained"

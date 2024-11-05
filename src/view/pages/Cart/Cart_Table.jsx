@@ -47,6 +47,7 @@ export default function CartTable() {
       flexDirection="column"
       alignItems="center"
       minHeight="30vh"
+      mt={13}
     >
       {rows.length === 0 ? (
         <Typography variant="h6">No items in the cart</Typography>

@@ -118,8 +118,13 @@ const RespHeader = () => {
   console.log(isMatch);
   return (
     <>
-      <AppBar sx={{ background: "dark-pink", width: "100%" }}>
-        <Toolbar sx={{ minHeight: 12, height: 12 }}>
+      <AppBar
+        sx={{
+          background: "dark-pink",
+          width: "100%",
+        }}
+      >
+        <Toolbar sx={{ minHeight: 14, height: 14, minHeight: { xs: "40px" } }}>
           {isMatch ? (
             <>
               {/* Amazon logo */}

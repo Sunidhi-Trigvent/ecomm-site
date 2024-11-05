@@ -129,7 +129,7 @@ export default function Container_main({ productDetail }) {
   };
 
   return (
-    <Grid container justifyContent={"center"} gap={2} p={4}>
+    <Grid container justifyContent={"center"} gap={2} p={4} mt={13}>
       <Grid item xs={12} sm={6}>
         <Grid container direction="row" spacing={2}>
           <Grid item xs={6}>
