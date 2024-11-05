@@ -150,7 +150,14 @@ const RespHeader = () => {
               </Stack>
 
               {/* Drawer Comp starts */}
-              <DrawerComp />
+              <DrawerComp
+                isLoggedIn={isLoggedIn}
+                firstName={firstName}
+                onLoginClick={handleLoginClick}
+                onLogoutClick={handleLogoutClick}
+                onRegisterClick={handleRegisterClick}
+              />
+
               {/* Drawer Comp ends */}
             </>
           ) : (
