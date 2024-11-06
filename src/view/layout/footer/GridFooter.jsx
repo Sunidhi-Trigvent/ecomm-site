@@ -14,9 +14,17 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 const GridFooter = () => {
   return (
     <>
-      <Grid container sx={{ mt: 5 }}>
-        <Grid item size={2}></Grid>
+      <Grid
+        container
+        sx={{ mt: 4 }}
+        spacing={1}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Grid item size={2}>
+          {/* Empty Space */}
+        </Grid>
+        <Grid item size={{ sm: 2 }}>
           <Typography sx={{ color: "white" }}>
             Amazon Store
             <br />
@@ -24,7 +32,7 @@ const GridFooter = () => {
             consectetur adipisicing elit.
           </Typography>
         </Grid>
-        <Grid item size={2}>
+        <Grid item size={{ sm: 2 }}>
           <Typography sx={{ color: "white" }}>
             This is an ecommerce
             <br />
@@ -32,7 +40,6 @@ const GridFooter = () => {
           </Typography>
 
           <Stack spacing={1} mt={2}>
-            {/* Adds vertical spacing between elements */}
             <TextField
               sx={{ backgroundColor: "white" }}
               id="outlined-basic"
@@ -43,8 +50,8 @@ const GridFooter = () => {
               variant="contained"
               size="medium"
               sx={{
-                padding: "4px 12px", // Optional: Fine-tune padding for a smaller button
-                fontSize: "0.75rem", // Optional: Reduce font size for smaller text
+                padding: "4px 12px",
+                fontSize: "0.75rem",
                 width: "30px",
               }}
             >
@@ -53,7 +60,7 @@ const GridFooter = () => {
           </Stack>
         </Grid>
 
-        <Grid item size={2}>
+        <Grid item size={{ sm: 2 }}>
           <Typography sx={{ color: "white" }}>Follow Us</Typography>
           <IconButton sx={{ color: "white" }}>
             <FacebookIcon />
@@ -61,13 +68,15 @@ const GridFooter = () => {
             <YouTubeIcon />
           </IconButton>
         </Grid>
-        <Grid item size={2}>
+        <Grid item size={{ sm: 2 }}>
           <Typography sx={{ color: "white" }}>
             Call Us
             <br /> +91 123456789
           </Typography>
         </Grid>
-        <Grid item size={2}></Grid>
+        <Grid item size={2}>
+          {/* Empty Space */}
+        </Grid>
       </Grid>
     </>
   );
