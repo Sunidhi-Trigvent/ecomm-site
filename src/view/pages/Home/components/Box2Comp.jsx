@@ -10,7 +10,7 @@ export default function BoxParagraph() {
       sx={{
         p: { xs: 2, lg: 2 },
         border: "1px dashed grey",
-        // maxWidth: { xs: "30%", lg: "100%" },
+        maxWidth: { xs: "40%", lg: "100%" },
       }}
     >
       <Typography textTransform={"uppercase"}>Welcome To</Typography>
