@@ -14,17 +14,15 @@ function Home() {
           xs: "column", // For extra small devices
           lg: "row", // For medium devices and above
         }}
+        // justifyContent={"space-between"}
+
         alignItems={{
-          xs: "flex-start", // Align items to the start (left) for extra small devices
+          xs: "left", // Align items to the start (left) for extra small devices
           lg: "center", // Center align for medium devices and above
         }}
         mt={15}
-        ml={{
-          xs: 2, // Margin-left of 2 for extra-small screens
-          lg: 34, // Margin-left of 34 for large screens and above
-        }}
+        ml={{ xs: 1, lg: 34 }}
       >
-        {/* Your Stack content */}
         <BoxParagraph />
         <BoxImg />
       </Stack>

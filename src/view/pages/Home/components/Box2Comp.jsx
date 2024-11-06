@@ -5,7 +5,14 @@ import Button from "@mui/material/Button";
 
 export default function BoxParagraph() {
   return (
-    <Box component="section" sx={{ p: 2, border: "1px dashed grey" }}>
+    <Box
+      component="section"
+      sx={{
+        p: { xs: 2, lg: 2 },
+        border: "1px dashed grey",
+        // maxWidth: { xs: "30%", lg: "100%" },
+      }}
+    >
       <Typography textTransform={"uppercase"}>Welcome To</Typography>
 
       <Typography fontWeight={900} fontSize={30}>
