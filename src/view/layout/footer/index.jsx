@@ -15,7 +15,7 @@ function Footer() {
           sx={{
             bgcolor: "#0A2F54",
             width: "100%",
-            height: "210px",
+            height: "270px",
             position: "relative",
           }}
         >

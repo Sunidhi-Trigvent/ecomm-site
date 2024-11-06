@@ -14,7 +14,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 const GridFooter = () => {
   return (
     <>
-      <Grid container>
+      <Grid container sx={{ mt: 5 }}>
         <Grid item size={2}></Grid>
         <Grid item size={2}>
           <Typography sx={{ color: "white" }}>
@@ -39,7 +39,17 @@ const GridFooter = () => {
               label="Your Mail"
               variant="outlined"
             />
-            <Button variant="contained">Contact</Button>
+            <Button
+              variant="contained"
+              size="medium"
+              sx={{
+                padding: "4px 12px", // Optional: Fine-tune padding for a smaller button
+                fontSize: "0.75rem", // Optional: Reduce font size for smaller text
+                width: "30px",
+              }}
+            >
+              Contact
+            </Button>
           </Stack>
         </Grid>
 
