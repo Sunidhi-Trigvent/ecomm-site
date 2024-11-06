@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 
-export default function BoxParagraph() {
+export default function BoxParagraph({ myData }) {
+  const { name } = myData;
   return (
     <Box
       component="section"
@@ -16,7 +17,7 @@ export default function BoxParagraph() {
       <Typography textTransform={"uppercase"}>Welcome To</Typography>
 
       <Typography fontWeight={900} fontSize={30}>
-        Amazon Store
+        {name}
       </Typography>
 
       <Typography>
