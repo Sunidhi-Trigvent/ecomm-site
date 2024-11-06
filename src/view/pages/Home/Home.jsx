@@ -36,7 +36,14 @@ function Home() {
           },
         }}
       >
-        <Typography sx={{ mt: 20, ml: { xs: 0, lg: 34 }, mb: 10 }}>
+        <Typography
+          sx={{
+            mt: 20,
+            ml: { xs: 0, lg: 34 },
+            mb: 10,
+            fontSize: { xs: "0.8rem", lg: "1rem" },
+          }}
+        >
           <h3>Our Feature Services</h3>
         </Typography>
         <FeatureComp />
