@@ -21,9 +21,13 @@ export default function FeatureComp() {
   return (
     <>
       <Stack
-        direction={"row"}
-        alignItems={"center"}
-        justifyContent={"space-evenly"}
+        direction={{
+          xs: "column", // Direction is column for extra-small screens
+          sm: "column", // Direction is column for small screens
+          lg: "row", // Direction is row for medium screens and above
+        }}
+        alignItems="center"
+        justifyContent="space-evenly"
       >
         {featuredProducts?.map((product) => (
           <Box

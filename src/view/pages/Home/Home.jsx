@@ -12,24 +12,33 @@ function Home() {
       <Stack
         direction={{
           xs: "column", // For extra small devices
-          md: "row", // For medium devices and above
+          lg: "row", // For medium devices and above
         }}
-        alignItems={
-          {
-            // xs: "flex-start", // Align items to the start (left) for extra small devices
-            // md: "center", // Center align for medium devices and above
-          }
-        }
+        alignItems={{
+          xs: "flex-start", // Align items to the start (left) for extra small devices
+          lg: "center", // Center align for medium devices and above
+        }}
         mt={15}
-        ml={34}
+        ml={{
+          xs: 2, // Margin-left of 2 for extra-small screens
+          lg: 34, // Margin-left of 34 for large screens and above
+        }}
       >
         {/* Your Stack content */}
         <BoxParagraph />
         <BoxImg />
       </Stack>
 
-      <Box sx={{ mt: 20, bgcolor: "lightgray" }}>
-        <Typography sx={{ mt: 20, ml: 34, mb: 10 }}>
+      <Box
+        sx={{
+          mt: 20,
+          bgcolor: {
+            xs: "lightgray", // Background color for extra small screens
+            sm: "lightgray", // Background color for small screens and above
+          },
+        }}
+      >
+        <Typography sx={{ mt: 20, ml: { xs: 0, lg: 34 }, mb: 10 }}>
           <h3>Our Feature Services</h3>
         </Typography>
         <FeatureComp />

@@ -119,7 +119,8 @@ export default function BoxBasic() {
       <Box sx={{ display: { xs: "flex", lg: "none" }, alignItems: "center" }}>
         <MenuIcon />
       </Box>
-
+       
+       {/* Amzon logo */}
       <Stack
         direction="row"
         alignItems="center"
@@ -146,10 +147,13 @@ export default function BoxBasic() {
         </Typography>
       </Stack>
 
+        {/* ListComp */}
       <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
         <BasicList isLoggedIn={isLoggedIn} firstName={firstName} />
       </Box>
 
+
+       {/* Login Avatar */}
       <Box
         component="section"
         width={90}
