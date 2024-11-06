@@ -21,7 +21,7 @@ function Home() {
           lg: "center", // Center align for medium devices and above
         }}
         mt={15}
-        ml={{ xs: 1, lg: 34 }}
+        ml={{ xs: 0.2, lg: 34 }}
       >
         <BoxParagraph />
         <BoxImg />
