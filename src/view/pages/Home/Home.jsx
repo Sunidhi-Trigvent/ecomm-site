@@ -7,6 +7,9 @@ import FeatureComp from "./components/feature";
 import FeatureTwo from "./components/icon_box";
 
 function Home() {
+  const data = {
+    name: "Amazon Store",
+  };
   return (
     <>
       <Stack
@@ -23,7 +26,7 @@ function Home() {
         mt={15}
         ml={{ xs: 0.2, lg: 34 }}
       >
-        <BoxParagraph />
+        <BoxParagraph myData={data} />
         <BoxImg />
       </Stack>
 

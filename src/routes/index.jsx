@@ -38,15 +38,15 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login/>,
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <Register/>,
+        element: <Register />,
       },
       {
         path: "/cart",
-        element: <Cart/>,
+        element: <Cart />,
       },
     ],
   },
