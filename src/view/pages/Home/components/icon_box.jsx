@@ -10,22 +10,26 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 export default function FeatureTwo() {
   return (
     <Stack
-      direction={"row"}
-      alignItems={"center"}
+      direction={{
+        xs: "column", // Direction is column for extra-small screens
+        lg: "row", // Direction is row for medium screens and above
+      }}
+      // alignItems={"center"}
+      alignItems={{ xs: "left", lg: "center" }}
       justifyContent={"space-evenly"}
       mt={8}
     >
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
-        width="12rem"
         height="7rem"
+        width={{ xs: "8rem", lg: "12rem" }}
       >
         <TbTruckDelivery className="icon" />
       </Box>
 
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
-        width="12rem"
+        width={{ xs: "8rem", lg: "12rem" }}
         height="7rem"
       >
         <MdSecurity className="icon" />
@@ -33,14 +37,14 @@ export default function FeatureTwo() {
 
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
-        width="12rem"
+        width={{ xs: "8rem", lg: "12rem" }}
         height="7rem"
       >
         <GiReceiveMoney className="icon" />
       </Box>
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
-        width="12rem"
+        width={{ xs: "8rem", lg: "12rem" }}
         height="7rem"
       >
         <RiSecurePaymentLine className="icon" />
