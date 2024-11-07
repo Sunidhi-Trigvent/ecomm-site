@@ -29,7 +29,7 @@ function Footer() {
               height: "110px",
               position: "absolute",
               // bottom: "50%", // Position it halfway above
-              top: "-20%",
+              top: "-13%",
               left: "50%",
               transform: "translateX(-50%)", // Center horizontally
               borderRadius: "8px", // Optional: Add some border radius

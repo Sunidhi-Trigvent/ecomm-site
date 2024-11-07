@@ -1,6 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import MuiTextField from "../../../components/TextFieldMui";
+import FormContainer from "../../../components/FormContainer";
 
 function Contact() {
   return (
@@ -29,8 +30,18 @@ function Contact() {
         </Box>
       </Box>
 
-      <Stack>
-        {/* <MuiTextField name="email" label="Email" fullWidth /> */}
+      {/* Form start- */}
+      <Stack
+        direction="column"
+        alignItems="flex-end" // Aligns content to the right within the Stack
+        spacing={2} // Adds space between items
+        sx={{ width: "100%", maxWidth: "400px", ml: "auto", mr: 46, mt: 4 }} // Ensures Stack is aligned to the right and limited in width
+      >
+        <FormContainer sx={{ spacing: 2 }}>
+          <MuiTextField name="text" label="Your Name" fullWidth />
+
+          <MuiTextField name="email" label="Your Email" fullWidth />
+        </FormContainer>
       </Stack>
     </>
   );
