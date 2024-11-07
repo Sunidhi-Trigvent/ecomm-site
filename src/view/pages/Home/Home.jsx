@@ -17,7 +17,8 @@ function Home() {
           xs: "column", // For extra small devices
           lg: "row", // For medium devices and above
         }}
-        justifyContent={"space-between"}
+        // justifyContent={"space-between"}
+
         alignItems={{
           xs: "left", // Align items to the start (left) for extra small devices
           lg: "center", // Center align for medium devices and above
