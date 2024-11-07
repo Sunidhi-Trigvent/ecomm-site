@@ -29,7 +29,7 @@ export default function FeatureTwo() {
           alignItems: "center", // Center items horizontally
           justifyContent: "center", // Center items vertically
         }}
-        height="7rem"
+        height="12rem"
         width={{ xs: "8rem", lg: "12rem" }}
       >
         <TbTruckDelivery className="icon" />
@@ -38,38 +38,40 @@ export default function FeatureTwo() {
         </Typography>
       </Box>
 
-      <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
-        width={{ xs: "8rem", lg: "12rem" }}
-        height="4rem"
-      >
-        <Stack direction="row" alignItems="center" spacing={1} mt={3}>
-          <MdSecurity className="icon" />
-          <Typography sx={{ fontSize: "13px" }}>
-            Non-contact Shipping
-          </Typography>
-        </Stack>
-      </Box>
+      <Stack direction="column" spacing={2}>
+        <Box
+          sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
+          width={{ xs: "8rem", lg: "12rem" }}
+          height="4rem"
+        >
+          <Stack direction="row" alignItems="center" spacing={1} mt={3}>
+            <MdSecurity className="icon" />
+            <Typography sx={{ fontSize: "13px" }}>
+              Non-contact Shipping
+            </Typography>
+          </Stack>
+        </Box>
 
-      <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
-        width={{ xs: "8rem", lg: "12rem" }}
-        height="4rem"
-      >
-        <Stack direction="row" alignItems="center" spacing={1} mt={3}>
-          <GiReceiveMoney className="icon" />
-          <Typography sx={{ fontSize: "13px" }}>
-            Money-Back Guaranteed
-          </Typography>
-        </Stack>
-      </Box>
+        <Box
+          sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
+          width={{ xs: "8rem", lg: "12rem" }}
+          height="4rem"
+        >
+          <Stack direction="row" alignItems="center" spacing={1} mt={3}>
+            <GiReceiveMoney className="icon" />
+            <Typography sx={{ fontSize: "13px" }}>
+              Money-Back Guaranteed
+            </Typography>
+          </Stack>
+        </Box>
+      </Stack>
       <Box
         sx={{
           p: 3,
           border: "1px dashed grey",
           bgcolor: "lightgray",
           width: { xs: "8rem", lg: "12rem" },
-          height: "7rem",
+          height: "12rem",
           display: "flex", // Use flex to control layout
           flexDirection: "column", // Arrange items vertically
           // alignItems: "center", // Center items horizontally

@@ -27,8 +27,11 @@ export default function FeatureComp() {
         }}
         alignItems={{ xs: "left", lg: "center" }}
         // alignItems={"center"}
+
         justifyContent="space-evenly"
         maxWidth={{ xs: "40%", lg: "100%" }}
+        spacing={{ xs: 0, lg: -12 }}
+        mb={8}
       >
         {featuredProducts?.map((product) => (
           <Box

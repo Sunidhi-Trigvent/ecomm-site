@@ -29,7 +29,7 @@ function Home() {
         <BoxImg />
       </Stack>
 
-      <Box
+      <Stack
         sx={{
           mt: 20,
           bgcolor: {
@@ -40,7 +40,7 @@ function Home() {
       >
         <Typography
           sx={{
-            mt: 20,
+            // mt: 20,
             ml: { xs: 0, lg: 34 },
             mb: 10,
             fontSize: { xs: "0.8rem", lg: "1rem" },
@@ -48,8 +48,11 @@ function Home() {
         >
           <h3>Our Feature Services</h3>
         </Typography>
-        <FeatureComp />
-      </Box>
+        <Box sx={{ mt: -7 }}>
+          {" "}
+          <FeatureComp />
+        </Box>
+      </Stack>
 
       <Box justifyContent={"center"}>
         <FeatureTwo />
