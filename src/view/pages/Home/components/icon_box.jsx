@@ -18,6 +18,7 @@ export default function FeatureTwo() {
       alignItems={{ xs: "left", lg: "center" }}
       justifyContent={"space-evenly"}
       mt={8}
+      spacing={{ xs: 0, lg: -21 }}
     >
       <Box
         sx={{
