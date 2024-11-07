@@ -41,19 +41,27 @@ export default function FeatureTwo() {
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
         width={{ xs: "8rem", lg: "12rem" }}
-        height="7rem"
+        height="4rem"
       >
-        <MdSecurity className="icon" />
-        <Typography sx={{ fontSize: "13px" }}>Non-contact Shipping</Typography>
+        <Stack direction="row" alignItems="center" spacing={1} mt={3}>
+          <MdSecurity className="icon" />
+          <Typography sx={{ fontSize: "13px" }}>
+            Non-contact Shipping
+          </Typography>
+        </Stack>
       </Box>
 
       <Box
         sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
         width={{ xs: "8rem", lg: "12rem" }}
-        height="7rem"
+        height="4rem"
       >
-        <GiReceiveMoney className="icon" />
-        <Typography sx={{ fontSize: "13px" }}>Money-Back Guaranteed</Typography>
+        <Stack direction="row" alignItems="center" spacing={1} mt={3}>
+          <GiReceiveMoney className="icon" />
+          <Typography sx={{ fontSize: "13px" }}>
+            Money-Back Guaranteed
+          </Typography>
+        </Stack>
       </Box>
       <Box
         sx={{
