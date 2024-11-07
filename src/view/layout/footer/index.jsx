@@ -5,10 +5,10 @@ import GridFooter from "./GridFooter";
 function Footer() {
   return (
     <>
-      <div>Footer</div>
+      {/* <div>Footer</div> */}
       <Box
         sx={{
-          mt: "60px",
+          mt: "120px",
         }}
       >
         <Box

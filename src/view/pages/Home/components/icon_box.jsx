@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Stack } from "@mui/material";
+import { IconButton, Stack, Typography } from "@mui/material";
 
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdSecurity } from "react-icons/md";
@@ -20,34 +20,61 @@ export default function FeatureTwo() {
       mt={8}
     >
       <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
+        sx={{
+          p: 3,
+          border: "1px dashed grey",
+          bgcolor: "lightgray",
+          display: "flex", // Use flex to control layout
+          flexDirection: "column", // Arrange items vertically
+          alignItems: "center", // Center items horizontally
+          justifyContent: "center", // Center items vertically
+        }}
         height="7rem"
         width={{ xs: "8rem", lg: "12rem" }}
       >
         <TbTruckDelivery className="icon" />
+        <Typography sx={{ fontSize: "13px" }}>
+          Super Fast and Free Delivery
+        </Typography>
       </Box>
 
       <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
+        sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
         width={{ xs: "8rem", lg: "12rem" }}
         height="7rem"
       >
         <MdSecurity className="icon" />
+        <Typography sx={{ fontSize: "13px" }}>Non-contact Shipping</Typography>
       </Box>
 
       <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
+        sx={{ p: 3, border: "1px dashed grey", bgcolor: "lightgray" }}
         width={{ xs: "8rem", lg: "12rem" }}
         height="7rem"
       >
         <GiReceiveMoney className="icon" />
+        <Typography sx={{ fontSize: "13px" }}>Money-Back Guaranteed</Typography>
       </Box>
       <Box
-        sx={{ p: 3, border: "1px dashed grey", bgcolor: "white" }}
-        width={{ xs: "8rem", lg: "12rem" }}
-        height="7rem"
+        sx={{
+          p: 3,
+          border: "1px dashed grey",
+          bgcolor: "lightgray",
+          width: { xs: "8rem", lg: "12rem" },
+          height: "7rem",
+          display: "flex", // Use flex to control layout
+          flexDirection: "column", // Arrange items vertically
+          // alignItems: "center", // Center items horizontally
+          justifyContent: "center", // Center items vertically
+        }}
       >
-        <RiSecurePaymentLine className="icon" />
+        <IconButton>
+          <RiSecurePaymentLine className="icon" />
+        </IconButton>
+
+        <Typography sx={{ fontSize: "13px" }}>
+          Super Secure Payment System
+        </Typography>
       </Box>
     </Stack>
   );
